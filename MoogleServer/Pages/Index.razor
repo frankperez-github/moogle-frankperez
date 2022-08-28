@@ -1,0 +1,42 @@
+﻿@page "/"
+
+<PageTitle>Moogle!</PageTitle>
+
+<h1>🔍 Moogle!</h1>
+
+<input class="p-1 my-4" @bind="query" placeholder="Introduzca su búsqueda">
+
+<button type="default" class="btn btn-primary" @onclick="RunQuery">🔍 Buscar</button>
+
+@if (!string.IsNullOrEmpty(result.Suggestion)) {
+    <div class="suggestion">
+        <p>¿Quisite decir <strong><a href="#">@result.Suggestion</a></strong>?</p>
+    </div>
+}
+
+<ul class="results">
+@foreach (var item in result.Items()) {
+    <li>
+        <div class="item">
+            <p class="title">@item.Title</p>
+            <p>... @item.Snippet ...</p>
+            <p>Score: @item.Score</p>
+        </div>
+    </li>
+}
+</ul>
+
+@code {
+    private string query = "";
+    private SearchResult result = new SearchResult();
+
+    @*Precalculated TF and iDF *@
+    Dictionary<string, double[]> TF =  MoogleServer.Program.TF;
+    Dictionary<string, double> iDF =  MoogleServer.Program.iDF;
+
+    private void RunQuery() {
+        if(query != String.Empty){
+        result = Moogle.Query(query, TF, iDF);
+        }
+    }
+}

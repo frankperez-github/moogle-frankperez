@@ -1,0 +1,24 @@
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/bin/Debug/net6.0/MoogleEngine.deps.json
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/bin/Debug/net6.0/MoogleEngine.dll
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/bin/Debug/net6.0/MoogleEngine.pdb
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/MoogleEngine.csproj.AssemblyReference.cache
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/MoogleEngine.GeneratedMSBuildEditorConfig.editorconfig
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/MoogleEngine.AssemblyInfoInputs.cache
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/MoogleEngine.AssemblyInfo.cs
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/MoogleEngine.csproj.CoreCompileInputs.cache
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/MoogleEngine.dll
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/refint/MoogleEngine.dll
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/MoogleEngine.pdb
+/media/frankperez/Windows/Local Disk/moogle/MoogleEngine/obj/Debug/net6.0/ref/MoogleEngine.dll
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/bin/Debug/net6.0/MoogleEngine.deps.json
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/bin/Debug/net6.0/MoogleEngine.dll
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/bin/Debug/net6.0/MoogleEngine.pdb
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/MoogleEngine.csproj.AssemblyReference.cache
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/MoogleEngine.GeneratedMSBuildEditorConfig.editorconfig
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/MoogleEngine.AssemblyInfoInputs.cache
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/MoogleEngine.AssemblyInfo.cs
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/MoogleEngine.csproj.CoreCompileInputs.cache
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/MoogleEngine.dll
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/refint/MoogleEngine.dll
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/MoogleEngine.pdb
+/media/frankperez/Windows/Local Disk/moogle new search/MoogleEngine/obj/Debug/net6.0/ref/MoogleEngine.dll
