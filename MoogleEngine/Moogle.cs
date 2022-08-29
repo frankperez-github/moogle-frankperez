@@ -7,7 +7,7 @@ public class Moogle
         // Looking for search operators
         (bool, string[]) nonPresent = operators.nonPresent(query);
         (bool, string[]) Present = operators.Present(query);
-
+        (bool, string[], int) Importance = operators.Importance(query);
 
         // Proccesing query
         string[] queryWords = preSearch.SplitInWords(query);
@@ -23,7 +23,7 @@ public class Moogle
         int validMatches = 0;
 
         // Looking best match in all txt
-        for(int i = 0; i < filesAdresses.Length; i++)
+        for (int i = 0; i < filesAdresses.Length; i++)
         {
             // Search of query
             double queryTF = 0;
@@ -53,15 +53,32 @@ public class Moogle
                 }
             }
 
+            // * operator
+            if (Importance.Item1)
+            {
+                // Each word affected by * operator, will be multyplied by number of repetitions of * in query
+                foreach (var word in Importance.Item2)
+                {
+                    for (int r = 0; r < Importance.Item3; r++) //Number of *
+                    {
+                        if (TF.ContainsKey(word))
+                        {
+                            queryTF += TF[word][i];
+                            queryiDF += iDF[word];
+                        }
+                    }
+                }
+            }
+
             // Computing SIMILARITY between query and each txt using cosine similarity
             // The bigger Cos(angule) is best match            
             double TXTvectorLength = Math.Sqrt(Math.Pow(queryTF, 2) + Math.Pow(queryiDF, 2)); //Length of vector of txt
-            double anguleCos = (queryTF / TXTvectorLength);
+            double anguleCos = ((queryTF + queryiDF) / (TXTvectorLength * Math.Sqrt(2)));
 
             // If TF of query in text is 0 discard that txt as match
             if(queryTF == 0)
             {
-                Match[i].Item1 = 0;   //Score of txt
+                Match[i].Item1 = 0; //Score of txt
             }
             else
             {
@@ -102,7 +119,6 @@ public class Moogle
                             Match[i].Item1 = 0; //Similarity is 0
                             validMatches--; //Previously this text was a match, now it's discarded
                             break; //Text is discarded only one time. If a word of affected ones is not founded in text, TXT will be discarded
-                            
                         }
                     }
                 }
