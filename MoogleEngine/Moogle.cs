@@ -8,6 +8,7 @@ public class Moogle
         (bool, string[]) nonPresent = operators.nonPresent(query);
         (bool, string[]) Present = operators.Present(query);
         (bool, string[], int) Importance = operators.Importance(query);
+        
 
         // Proccesing query
         string[] queryWords = preSearch.SplitInWords(query);
