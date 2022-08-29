@@ -102,8 +102,6 @@ public class Moogle
                         if (TF.ContainsKey(word) && TF[word][i] > 0)
                         {
                             Match[i].Item1 = 0; //Similarity is 0
-                            validMatches--; //Previously this text was a match, now it's discarded
-                            break; //Text is discarded only one time. If a word of affected ones is founded in text, TXT will be discarded
                         }
                     }
                 }
@@ -117,8 +115,6 @@ public class Moogle
                         if (TF.ContainsKey(word) && TF[word][i] == 0)
                         {
                             Match[i].Item1 = 0; //Similarity is 0
-                            validMatches--; //Previously this text was a match, now it's discarded
-                            break; //Text is discarded only one time. If a word of affected ones is not founded in text, TXT will be discarded
                         }
                     }
                 }
@@ -127,12 +123,21 @@ public class Moogle
             
         
 
-        // Results of search are just valid matches
-        SearchItem[] items = new SearchItem[validMatches];
+        // Results of search are just valid matches (score != 0)
+        int finalMatches = 0;
+        foreach (var match in Match)
+        {
+            if (match.Item1 != 0)
+            {
+                finalMatches++;
+            }
+        }
+
+        SearchItem[] items = new SearchItem[finalMatches];
         int count = 0;
         
         //In case of not results founded
-        if (validMatches == 0)
+        if (finalMatches == 0)
         {
             SearchItem[] emptySearch = {new SearchItem("No matches founded", "...", 0)};
             return new SearchResult(emptySearch);
@@ -141,8 +146,8 @@ public class Moogle
         // Fulling items to be returned
         foreach (var txt in Match)
         {
-            // txt.Item1 es adress of txt, 
-            // txt.Item2 is score of txt
+            // txt.Item2 es adress of txt, 
+            // txt.Item1 is score of txt
 
             // Showing all matches except the ones that have 0 as TF for query
             if(txt.Item1 != 0)
