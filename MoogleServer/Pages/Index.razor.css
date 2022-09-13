@@ -6,3 +6,18 @@
     font-size: large;
     font-weight: bold;
 }
+
+.logo{
+    width: 25%;
+}
+
+.searchButton
+{
+    border: solid 0.5px rgb(122, 122, 122);
+    width: 4.5%;
+    padding: 0.3%;
+}
+
+.searchImg{
+    width: 50%;
+}

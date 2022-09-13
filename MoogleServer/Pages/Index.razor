@@ -2,11 +2,16 @@
 
 <PageTitle>Moogle!</PageTitle>
 
-<h1>🔍 Moogle!</h1>
+<div class="logoDiv">
+    <img class="logo" src="./Moogle logo-02.svg" alt="moogleImg"/>
+</div>
+
 
 <input class="p-1 my-4" @bind="query" placeholder="Introduzca su búsqueda">
 
-<button type="default" class="btn btn-primary" @onclick="RunQuery">🔍 Buscar</button>
+<div class="btn searchButton" @onclick="RunQuery">
+     <img  class="searchImg" src="./Moogle lupa-03.svg" alt="">
+</div>
 
 @if (!string.IsNullOrEmpty(result.Suggestion)) {
     <div class="suggestion">
@@ -33,10 +38,11 @@
     @*Precalculated TF and iDF *@
     Dictionary<string, double[]> TF =  MoogleServer.Program.TF;
     Dictionary<string, double> iDF =  MoogleServer.Program.iDF;
+    Dictionary<string, Dictionary< string, string>> snippets = MoogleServer.Program.snippets;
 
     private void RunQuery() {
         if(query != String.Empty){
-        result = Moogle.Query(query, TF, iDF);
+        result = Moogle.Query(query, TF, iDF, snippets);
         }
     }
 }

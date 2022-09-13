@@ -38,6 +38,48 @@ namespace MoogleEngine
             return Importance;
         }
 
+        public static (bool, Dictionary<string, string>) closeness(string query)
+        {
+            (bool, Dictionary<string, string>) closeness = (false, new Dictionary<string, string>());
+            if (query.Contains('~'))
+            {
+                closeness.Item1 = true;
+            }
+            
+            query = query.Trim();
+
+            for (int i = 0; i < query.Length; i++)
+            {
+                if (query[i] == '~')
+                {
+                    // closeness operator affected 2 words each time it appears
+                    string w1;
+                    string w2;
+
+                    for (int c = i; c > 0; c--)
+                    {
+                        // First word from pair affected by operator
+                        if (query[c] == ' ' || c == 0)
+                        {
+                            w1 = query.Substring(c, i - c); // From c to operator First Word
+                            break;
+                        }
+                    }
+
+                    for (int c = 0; c < query.Length; c++)
+                    {
+                        // Second word from pair
+                        if (query[c] == ' ' || c == query.Length-1)
+                        {
+                            w2 = query.Substring(i, c - i); // From operator to c Second Word
+                        }
+                    }
+                }
+            }
+
+            return closeness;
+        }
+
         // Aux method
         public static (bool, string[]) operatorAction(char oper, string query)
         {

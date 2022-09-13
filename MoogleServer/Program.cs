@@ -6,12 +6,15 @@ class Program
 {
     //Computing TF for all words in all texts
     public static Dictionary<string, double[]> TF = preSearch.TF();
+
     // Passing TF result to iDF method to calculate iDF of all words in TF dict
     public static Dictionary<string, double> iDF = preSearch.iDF(TF);
 
+    // Storaging snippets for all words in data base
+    public static Dictionary<string, Dictionary< string, string>> snippets = preSearch.snippets(TF);
+
     private static void Main(string[] args)
     {
-        
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.

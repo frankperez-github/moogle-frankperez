@@ -1,6 +1,11 @@
-using System.Diagnostics;
+using System.Diagnostics; // to use a crono
+
 public class preSearch
-{
+{   
+   
+    public static Dictionary<string,string> StringContent = new Dictionary<string, string>(); // Dict with each path text and its contain as string
+
+
     // Auxiliar methods
     public static Dictionary<string, string[]> LoadTexts()
     {
@@ -16,7 +21,16 @@ public class preSearch
         for (int i = 0; i < TxtQuant; i++)
         {   
             // Reading each line
-            string content = File.ReadAllText(filesAdresses[i]).ToLower();
+            string content = File.ReadAllText(filesAdresses[i]);
+            
+            // Storaging text as string
+            if(StringContent.Count != TxtQuant)
+            {
+                StringContent.Add(filesAdresses[i], content);
+            }
+
+            content = content.ToLower();
+            
             // Spliting each line in words
             TXTcontent.Add(filesAdresses[i], SplitInWords(content));
         }      
@@ -37,7 +51,7 @@ public class preSearch
 
     // Principal Methods
     public static Dictionary<string, double[]> TF()
-    // This method compute TF of all words in all texts and storage it in a dict  <word, TF values[]> pairs
+    // This method compute TF of all words in all texts and storage it in a dict  <word, TF values[]> pairs 
     {
         // Here I will storage TF for all words
         // In a dict that contains all words and their TF value for each text
@@ -50,7 +64,6 @@ public class preSearch
         int totalTXTs = TXTsContent.Count();
         // List of texts' paths
         string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");
-        
 
         // Delay time of TF
         Stopwatch crono = new Stopwatch();
@@ -141,4 +154,47 @@ public class preSearch
         return iDF;   
     }
 
+    public static Dictionary<string, Dictionary<string, string>> snippets(Dictionary<string, double[]> TF)
+    {
+        Dictionary<string, string[]> texts = LoadTexts();
+
+        //          word            path of txt, snippet 
+        Dictionary<string, Dictionary< string, string>> snippets = new Dictionary<string, Dictionary<string, string>>();
+        
+        Stopwatch crono = new Stopwatch();
+        crono.Start();
+
+        foreach (var word in TF)
+        {
+            foreach (var text in texts)
+            {
+
+                string snippet = "";
+                string txtContain = StringContent[text.Key];
+
+                
+                if(txtContain.Contains(word.Key) && txtContain.Length > 10)
+                {
+                    // snippet = txtContain.Substring(index, length); 
+                }
+                
+                // Copying snippet of each word to snippet Dict, creating word if it doesn't exist or updating snippets of words in tetxs
+                if (snippets.ContainsKey(word.Key))
+                {
+                    snippets[word.Key].Add(text.Key, snippet);
+                }
+                else
+                {
+                    Dictionary<string, string> textSnippet = new Dictionary<string, string>();
+                    textSnippet.Add(text.Key, snippet);
+                    
+                    snippets.Add(word.Key, textSnippet);
+                }
+            }
+        }
+        
+        Console.WriteLine("Snippets loaded in: "+crono.ElapsedMilliseconds/1000+" secs.⌚");
+        crono.Stop();
+        return snippets;
+    }
 }
