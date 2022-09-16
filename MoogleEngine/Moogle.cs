@@ -2,12 +2,13 @@
 
 public class Moogle
 {
-    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, Dictionary< string, string>> snippets) {
+    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets) {
 
         // Looking for search operators
         (bool, string[]) nonPresent = operators.nonPresent(query);
         (bool, string[]) Present = operators.Present(query);
         (bool, string[], int) Importance = operators.Importance(query);
+        (bool, Dictionary<string, string[]>) closeness = operators.closeness(query);
 
         // Proccesing query
         string[] queryWords = preSearch.SplitInWords(query);
@@ -15,7 +16,7 @@ public class Moogle
         // Texts in Database
         string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");
 
-        // Array of txt's similarity and adress
+        // Array of txt's anguleCos and adress
         (double, string)[] Match = new (double, string)[filesAdresses.Length];
 
 
@@ -26,7 +27,7 @@ public class Moogle
             double queryTF = 0;
             double queryiDF = 0;
 
-            // Creating query vector
+            // Creating query vector of each txt
             foreach(var word in queryWords)
             {
                 // TF of each word in query
@@ -71,19 +72,20 @@ public class Moogle
                 // Each word affected by * operator, will be multyplied by number of repetitions of * in query
                 foreach (var word in Importance.Item2)
                 {
-                    for (int r = 0; r < Importance.Item3; r++) //Number of *
+                    if (TF.ContainsKey(word))
                     {
-                        if (TF.ContainsKey(word))
-                        {
-                            queryTF += TF[word][i];
-                            queryiDF += iDF[word];
-                        }
+                                              // Total of asterisks
+                        queryTF += TF[word][i] * Importance.Item3; 
+                        queryiDF += iDF[word] * Importance.Item3;
                     }
                 }
             }
 
-            // Computing SIMILARITY between query and each txt using cotang similarity      
-            double similarity = (queryTF / queryiDF);
+
+            // Computing SIMILARITY between query and each txt using cosine similarity  
+            double vectorLength = Math.Sqrt(Math.Pow(queryTF, 2) + Math.Pow(queryiDF, 2));
+            double anguleCos =  (queryTF + queryiDF) / (Math.Sqrt(2) * vectorLength);
+            
 
             // If TF of query in text is 0 discard that txt as match
             if(queryTF == 0)
@@ -92,15 +94,13 @@ public class Moogle
             }
             else
             {
-                Match[i].Item1 = similarity; //Score of txt
+                Match[i].Item1 = anguleCos; //Score of txt
             }
-
             Match[i].Item2 = filesAdresses[i]; //Adress of txt
 
 
-
             // SEARCH OPERATORS
-            if (Match[i].Item1 != 0) // Match contains all text in database with its cosine as Item1. Operators works over txts with cosine != 0
+            if (Match[i].Item1 != 0) // Match contains all text in database with its similarity as Item1. Operators works over txts with cosine != 0
             {
                 // ! operator
                 if (nonPresent.Item1)
@@ -110,7 +110,7 @@ public class Moogle
                         // If database contains word, discard txts it appears as match
                         if (TF.ContainsKey(word) && TF[word][i] > 0)
                         {
-                            Match[i].Item1 = 0; //Similarity is 0
+                            Match[i].Item1 = 0; //anguleCos is 0
                         }
                     }
                 }
@@ -123,8 +123,17 @@ public class Moogle
                         // If database contains word, discard txts it doesn't appear
                         if (TF.ContainsKey(word) && TF[word][i] == 0)
                         {
-                            Match[i].Item1 = 0; //Similarity is 0
+                            Match[i].Item1 = 0; //anguleCos is 0
                         }
+                    }
+                }
+
+                // ~ operator
+                if (closeness.Item1)
+                {
+                    foreach(var word in closeness.Item2)
+                    {
+                        Console.WriteLine(word.Key);
                     }
                 }
             }
@@ -152,6 +161,7 @@ public class Moogle
         int count = 0;
 
         // Fulling items to be returned
+        int txtCounter = 0;
         foreach (var txt in Match)
         {
             // txt.Item2 es adress of txt, 
@@ -170,9 +180,10 @@ public class Moogle
             // Showing all matches except the ones that have 0 as TF for query
             if(txt.Item1 != 0)
             {
-                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txt.Item2], txt.Item1);
+                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], txt.Item1);
                 count++;
-            }   
+            }  
+            txtCounter++; 
         }
         
         // Sorting items by Cos(angule)

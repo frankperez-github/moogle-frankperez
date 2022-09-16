@@ -18,6 +18,9 @@
     width: 4.5%;
     padding: 0.3%;
 }
+.searchButton:hover[b-3asepffdpk]{
+    border: solid 1px;
+}
 
 .searchImg[b-3asepffdpk]{
     width: 50%;

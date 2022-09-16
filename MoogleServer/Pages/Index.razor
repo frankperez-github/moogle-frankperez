@@ -38,10 +38,12 @@
     @*Precalculated TF and iDF *@
     Dictionary<string, double[]> TF =  MoogleServer.Program.TF;
     Dictionary<string, double> iDF =  MoogleServer.Program.iDF;
-    Dictionary<string, Dictionary< string, string>> snippets = MoogleServer.Program.snippets;
+
 
     private void RunQuery() {
         if(query != String.Empty){
+            
+        Dictionary<string, string[]> snippets = preSearch.snippets(query);
         result = Moogle.Query(query, TF, iDF, snippets);
         }
     }

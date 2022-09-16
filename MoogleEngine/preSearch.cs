@@ -2,9 +2,6 @@ using System.Diagnostics; // to use a crono
 
 public class preSearch
 {   
-   
-    public static Dictionary<string,string> StringContent = new Dictionary<string, string>(); // Dict with each path text and its contain as string
-
 
     // Auxiliar methods
     public static Dictionary<string, string[]> LoadTexts()
@@ -22,13 +19,6 @@ public class preSearch
         {   
             // Reading each line
             string content = File.ReadAllText(filesAdresses[i]);
-            
-            // Storaging text as string
-            if(StringContent.Count != TxtQuant)
-            {
-                StringContent.Add(filesAdresses[i], content);
-            }
-
             content = content.ToLower();
             
             // Spliting each line in words
@@ -143,7 +133,7 @@ public class preSearch
         foreach(var idf in iDF)
         {
             // iDf value is: ( 1 / frequency of a word in data base ) frequency in database is never going to be 0 because is calculated based on TF dictionary of all words
-            // A lower value of iDF represents a very common word in database
+            // A lower value of iDF represents a very common word in database, that means less importance
             iDF[idf.Key] = (1 / iDF[idf.Key]);
         }
         
@@ -154,43 +144,83 @@ public class preSearch
         return iDF;   
     }
 
-    public static Dictionary<string, Dictionary<string, string>> snippets(Dictionary<string, double[]> TF)
+    public static Dictionary<string, string[]> snippets(string query)
     {
-        Dictionary<string, string[]> texts = LoadTexts();
-
-        //          word            path of txt, snippet 
-        Dictionary<string, Dictionary< string, string>> snippets = new Dictionary<string, Dictionary<string, string>>();
-        
         Stopwatch crono = new Stopwatch();
         crono.Start();
 
-        foreach (var word in TF)
+        // Texts in Database
+        string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");
+
+        //          word            path of txt, snippet 
+        Dictionary<string, string[]> snippets = new Dictionary<string, string[]>();
+        
+        string[] queryWords = SplitInWords(query.ToLower());
+        int txtCounter = 0;
+        foreach (var text in filesAdresses)
         {
-            foreach (var text in texts)
-            {
+            StreamReader Txt = new StreamReader(text);
 
-                string snippet = "";
-                string txtContain = StringContent[text.Key];
+                do{
+                    foreach (var word in queryWords)
+                    {
+                        string[] txtSnippet = new string[filesAdresses.Length];
+                        string line = Txt.ReadLine();
+                        if (line != null)
+                        {
+                            line = line.ToLower();
 
+                            if (line.IndexOf(word) != -1)
+                            {
+                                // Copying snippet of each word to snippets Dict, creating word if it doesn't exist or updating snippets of existent word
+                                if (snippets.ContainsKey(word))
+                                {
+                                    snippets[word][txtCounter] = line;
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine(word);
+                                    txtSnippet[txtCounter] = line;
+                                    snippets.Add(word, txtSnippet);
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+                }
+                while(!Txt.EndOfStream);
                 
-                if(txtContain.Contains(word.Key) && txtContain.Length > 10)
-                {
-                    // snippet = txtContain.Substring(index, length); 
-                }
+                txtCounter++;
+
+                    // string line = Txt.ReadLine();
+                    // 
                 
-                // Copying snippet of each word to snippet Dict, creating word if it doesn't exist or updating snippets of words in tetxs
-                if (snippets.ContainsKey(word.Key))
-                {
-                    snippets[word.Key].Add(text.Key, snippet);
-                }
-                else
-                {
-                    Dictionary<string, string> textSnippet = new Dictionary<string, string>();
-                    textSnippet.Add(text.Key, snippet);
-                    
-                    snippets.Add(word.Key, textSnippet);
-                }
-            }
+                
+                // foreach (string line in File.ReadLines(text))
+                // {
+                //     // if (line.IndexOf(word.Key) != -1)
+                //     // {
+                //     //     // // Copying snippet of each word to snippets Dict, creating word if it doesn't exist or updating snippets of existent word
+                //     //     // if (!snippets.ContainsKey(word.Key))
+                //     //     // {
+                //     //     //     // txtSnippet[txtCounter] = content;
+                //     //     //     // snippets.Add(word.Key, txtSnippet);
+                //     //     // }
+                //     //     // else
+                //     //     // {
+                //     //     //     // snippets[word.Key][txtCounter] = content;
+                //     //     // }
+                //     // }
+                //     break;
+                // }
+            
+        }
+
+        foreach(var snippet in snippets)
+        {
+            Console.WriteLine(snippet);
         }
         
         Console.WriteLine("Snippets loaded in: "+crono.ElapsedMilliseconds/1000+" secs.⌚");

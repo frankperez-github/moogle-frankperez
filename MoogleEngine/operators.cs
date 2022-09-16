@@ -4,12 +4,12 @@ namespace MoogleEngine
     {
         // operators '!' and '^' return a tuple (bool, string[]) (presence of operator or not, word affected by operator)
         // operator '*' returns (presence of operator or not, word affected by operator, number of '*' in query)
-        public static (bool, string[]) nonPresent(string query)
+        public static (bool operatorPresence, string[] affectedWords) nonPresent(string query)
         {
             return operatorAction('!', query);
         }
 
-        public static (bool, string[] affectedWords) Present(string query)
+        public static (bool operatorPresence, string[] affectedWords) Present(string query)
         {
             return operatorAction('^', query);
         }
@@ -38,9 +38,9 @@ namespace MoogleEngine
             return Importance;
         }
 
-        public static (bool, Dictionary<string, string>) closeness(string query)
+        public static (bool, Dictionary<string, string[]>) closeness(string query)
         {
-            (bool, Dictionary<string, string>) closeness = (false, new Dictionary<string, string>());
+            (bool, Dictionary<string, string[]>) closeness = (false, new Dictionary<string, string[]>());
             if (query.Contains('~'))
             {
                 closeness.Item1 = true;
@@ -53,26 +53,64 @@ namespace MoogleEngine
                 if (query[i] == '~')
                 {
                     // closeness operator affected 2 words each time it appears
-                    string w1;
-                    string w2;
+                    string w1 = "";
+                    string w2 = "";
+                    int end = 0;
+                    int start = 0;
 
-                    for (int c = i; c > 0; c--)
+                    for (int c = i-1; c >= 0; c--)
                     {
                         // First word from pair affected by operator
-                        if (query[c] == ' ' || c == 0)
+                        if (query[c] == ' ')
                         {
-                            w1 = query.Substring(c, i - c); // From c to operator First Word
+                            start = c;
+                            end = i;
+                            w1 = query.Substring(start, end - start); // From c to operator first word of pair
+                            break;
+                        }
+                        if (c == 0)
+                        {
+                            start = c;
+                            end = i;
+                            w1 = query.Substring(start, end - start); // From 0 to operator first word 
                             break;
                         }
                     }
 
-                    for (int c = 0; c < query.Length; c++)
+                    for (int c = i+1; c <  query.Length; c++)
                     {
                         // Second word from pair
                         if (query[c] == ' ' || c == query.Length-1)
                         {
-                            w2 = query.Substring(i, c - i); // From operator to c Second Word
+                            w2 = query.Substring(i+1, c - i); // From operator to c Second Word
+                            break;
                         }
+                    }
+
+                    w2 = w2.ToLower();
+                    w1 = w1.ToLower();
+
+                    // Updating dictionary of affected words
+                    if (closeness.Item2.ContainsKey(w1))
+                    {
+                        closeness.Item2[w1].Append(w2);
+                    }
+                    else
+                    {
+                        string[] value = new string[1];
+                        value[0] = w2;
+                        closeness.Item2.Add(w1,value);
+                    }
+
+                    if (closeness.Item2.ContainsKey(w2))
+                    {
+                        closeness.Item2[w2].Append(w1);
+                    }
+                    else
+                    {
+                        string[] value = new string[1];
+                        value[0] = w1;
+                        closeness.Item2.Add(w2,value);
                     }
                 }
             }
