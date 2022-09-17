@@ -183,7 +183,7 @@ public class Moogle
             
             if (txt.Item1 != 0 && snippets[word][txtCounter] != null)
             {
-                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], txt.Item1);
+                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], Math.Truncate(txt.Item1*1000) / 1000);
                 count++;
             }  
             txtCounter++; 
