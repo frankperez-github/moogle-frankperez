@@ -61,34 +61,43 @@ namespace MoogleEngine
                     for (int c = i-1; c >= 0; c--)
                     {
                         // First word from pair affected by operator
-                        if (query[c] == ' ')
+                        if (query[c] != ' ') 
                         {
-                            start = c;
-                            end = i;
-                            w1 = query.Substring(start, end - start); // From c to operator first word of pair
-                            break;
-                        }
-                        if (c == 0)
-                        {
-                            start = c;
-                            end = i;
-                            w1 = query.Substring(start, end - start); // From 0 to operator first word 
+                            for(int j = c-1; j >= 0; j--)
+                            {
+                                if (query[j] == ' ' || j == 0)
+                                {
+                                    start = j;
+                                    end = c;
+                                    w1 = query.Substring(start, (end - start) + 1); // From c to operator first word of pair
+                                    break;
+                                }
+                            }
                             break;
                         }
                     }
 
-                    for (int c = i+1; c <  query.Length; c++)
+                    for (int c = i+1; c < query.Length; c++)
                     {
                         // Second word from pair
-                        if (query[c] == ' ' || c == query.Length-1)
+                        if (query[c] != ' ') 
                         {
-                            w2 = query.Substring(i+1, c - i); // From operator to c Second Word
+                            for(int j = c+1; j < query.Length; j++)
+                            {
+                                if (query[j] == ' ' || j == query.Length - 1)
+                                {
+                                    start = c;
+                                    end = j;
+                                    w2 = query.Substring(start, (end - start) + 1); // From c to operator first word of pair
+                                    break;
+                                }
+                            }
                             break;
                         }
                     }
 
-                    w2 = w2.ToLower();
-                    w1 = w1.ToLower();
+                    w2 = w2.ToLower().Trim();
+                    w1 = w1.ToLower().Trim();
 
                     // Updating dictionary of affected words
                     if (closeness.Item2.ContainsKey(w1))

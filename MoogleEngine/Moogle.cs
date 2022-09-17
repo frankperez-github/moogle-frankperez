@@ -133,7 +133,13 @@ public class Moogle
                 {
                     foreach(var word in closeness.Item2)
                     {
-                        Console.WriteLine(word.Key);
+                        foreach(var word2 in closeness.Item2[word])
+                        {
+                            if (word2.Key != word.Key)
+                            {
+
+                            }
+                        }
                     }
                 }
             }
