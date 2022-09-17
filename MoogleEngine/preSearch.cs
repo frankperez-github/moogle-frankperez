@@ -32,8 +32,13 @@ public class preSearch
         // Normalizing text
         sentence.Trim();
         sentence = sentence.ToLower();
-        char[] separators = { ' ', ',', '.', ';', ':','-','+','=','_','%','@','#','$','—','¿','?','(',')','!','¡','«','»','[',']','{','}','^','~','*'};
+        char[] separators = {' ','…','\n', ',', '.', ';', ':','-','+','=','_','%','@','#','$','—','¿','?','(',')','!','¡','«','»','[',']','{','}','^','~','*'};
         string[] words = sentence.Split(separators,StringSplitOptions.RemoveEmptyEntries);
+
+        for(int i = 0; i < words.Length; i++)
+        {
+            words[i] = words[i].Trim();
+        }
         
         return words;
     }
@@ -128,6 +133,8 @@ public class preSearch
                     }
                 }
             } 
+
+            
         }
 
         foreach(var idf in iDF)
@@ -144,7 +151,7 @@ public class preSearch
         return iDF;   
     }
 
-    public static Dictionary<string, string[]> snippets(string query)
+    public static Dictionary<string, string[]> snippets(Dictionary<string, double[]> TF)
     {
         Stopwatch crono = new Stopwatch();
         crono.Start();
@@ -155,72 +162,38 @@ public class preSearch
         //          word            path of txt, snippet 
         Dictionary<string, string[]> snippets = new Dictionary<string, string[]>();
         
-        string[] queryWords = SplitInWords(query.ToLower());
         int txtCounter = 0;
         foreach (var text in filesAdresses)
         {
-            StreamReader Txt = new StreamReader(text);
+            string[] lines = File.ReadAllLines(text);
+         
+            foreach(string line in lines)
+            {
+                // Array of snippet for each word
+                string[] txtSnippet = new string[filesAdresses.Length];
 
-                do{
-                    foreach (var word in queryWords)
+                if (line != null)
+                {
+                    // Reading txt one line at a time, dividing line in words
+                    string[] Line = SplitInWords(line.ToLower());
+
+                    // Inserting words and it's snippets in actual txt to snippets Dict
+                    foreach (string lineWord in Line)
                     {
-                        string[] txtSnippet = new string[filesAdresses.Length];
-                        string line = Txt.ReadLine();
-                        if (line != null)
+                        if (snippets.ContainsKey(lineWord))
                         {
-                            line = line.ToLower();
-
-                            if (line.IndexOf(word) != -1)
-                            {
-                                // Copying snippet of each word to snippets Dict, creating word if it doesn't exist or updating snippets of existent word
-                                if (snippets.ContainsKey(word))
-                                {
-                                    snippets[word][txtCounter] = line;
-                                    break;
-                                }
-                                else
-                                {
-                                    Console.WriteLine(word);
-                                    txtSnippet[txtCounter] = line;
-                                    snippets.Add(word, txtSnippet);
-                                    break;
-                                }
-                            }
+                            snippets[lineWord][txtCounter] = line;
                         }
-
+                        else
+                        {
+                            txtSnippet[txtCounter] = line;
+                            snippets.Add(lineWord, txtSnippet);
+                        }
                     }
-                }
-                while(!Txt.EndOfStream);
-                
-                txtCounter++;
+                }   
+            }
 
-                    // string line = Txt.ReadLine();
-                    // 
-                
-                
-                // foreach (string line in File.ReadLines(text))
-                // {
-                //     // if (line.IndexOf(word.Key) != -1)
-                //     // {
-                //     //     // // Copying snippet of each word to snippets Dict, creating word if it doesn't exist or updating snippets of existent word
-                //     //     // if (!snippets.ContainsKey(word.Key))
-                //     //     // {
-                //     //     //     // txtSnippet[txtCounter] = content;
-                //     //     //     // snippets.Add(word.Key, txtSnippet);
-                //     //     // }
-                //     //     // else
-                //     //     // {
-                //     //     //     // snippets[word.Key][txtCounter] = content;
-                //     //     // }
-                //     // }
-                //     break;
-                // }
-            
-        }
-
-        foreach(var snippet in snippets)
-        {
-            Console.WriteLine(snippet);
+            txtCounter++;
         }
         
         Console.WriteLine("Snippets loaded in: "+crono.ElapsedMilliseconds/1000+" secs.⌚");

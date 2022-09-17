@@ -24,3 +24,17 @@
 .searchImg[b-3asepffdpk]{
     width: 50%;
 }
+
+.result[b-3asepffdpk]{
+    width: 88%;
+    margin: 5% 6% !important;
+    border: solid 1px black;
+    padding: 2%;
+    padding-bottom: 0;
+}
+.score[b-3asepffdpk]{
+    text-align: right;
+}
+ul[b-3asepffdpk]{
+    list-style:none;   
+}

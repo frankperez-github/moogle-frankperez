@@ -168,17 +168,20 @@ public class Moogle
             // txt.Item1 is score of txt
             double max = double.MinValue;
             string word = "";
+
+            // Looking for more important word in query(bigger iDF), word most appear in txt
             for (int i = 0; i < queryWords.Length; i++)
-            {
-                if (iDF[queryWords[i]] > max)
+            {    
+                if (iDF.ContainsKey(queryWords[i]) && iDF[queryWords[i]] > max && TF[queryWords[i]][txtCounter]!= 0)
                 {
                     max = iDF[queryWords[i]];
-                    word = queryWords[i];
+                    word = queryWords[i]; // Most important word will decide which snippet will be showed
                 }
             }
 
             // Showing all matches except the ones that have 0 as TF for query
-            if(txt.Item1 != 0)
+            
+            if (txt.Item1 != 0 && snippets[word][txtCounter] != null)
             {
                 items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], txt.Item1);
                 count++;

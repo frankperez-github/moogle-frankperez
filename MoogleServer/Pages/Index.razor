@@ -21,11 +21,11 @@
 
 <ul class="results">
 @foreach (var item in result.Items()) {
-    <li>
+    <li class="result">
         <div class="item">
             <p class="title">@item.Title</p>
-            <p>... @item.Snippet ...</p>
-            <p>Score: @item.Score</p>
+            <p class="snippet">... @item.Snippet ...</p>
+            <p class="score">Score: @item.Score</p>
         </div>
     </li>
 }
@@ -38,12 +38,10 @@
     @*Precalculated TF and iDF *@
     Dictionary<string, double[]> TF =  MoogleServer.Program.TF;
     Dictionary<string, double> iDF =  MoogleServer.Program.iDF;
-
+    Dictionary<string, string[]> snippets = MoogleServer.Program.snippets;
 
     private void RunQuery() {
         if(query != String.Empty){
-            
-        Dictionary<string, string[]> snippets = preSearch.snippets(query);
         result = Moogle.Query(query, TF, iDF, snippets);
         }
     }
