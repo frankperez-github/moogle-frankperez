@@ -19,6 +19,9 @@ public class Moogle
         // Array of txt's anguleCos and adress
         (double, string)[] Match = new (double, string)[filesAdresses.Length];
 
+        
+        int[] closerInTxt = new int[filesAdresses.Length]; // Final results of calculating distance between words
+
 
         // Looking best match in all txt
         for (int i = 0; i < filesAdresses.Length; i++)
@@ -131,14 +134,43 @@ public class Moogle
                 // ~ operator
                 if (closeness.Item1)
                 {
-                    foreach(var word in closeness.Item2)
+                    foreach(var pair in closeness.Item2)
                     {
-                        foreach(var word2 in closeness.Item2[word.Key])
+                        string word = pair.Key;
+                        string[] AffectedWords = pair.Value;
+                        try
                         {
-                            if (closeness.Item2[word] != word.Key)
+                            foreach (var affected in AffectedWords)
                             {
-                                
+                                if (word != affected)
+                                {
+                                    for (int t = 0; t < filesAdresses.Length; t++)
+                                    {
+
+                                        int wordAppears = preSearch.positions[word][t].Length;
+                                        int affectedAppears = preSearch.positions[affected][t].Length;
+                                        int minDistance = int.MaxValue;
+                                        
+                                        for (int w = 0; w < wordAppears; w++)
+                                        {
+                                            for (int a = 0; a < affectedAppears; a++)
+                                            {
+                                                int distance = Math.Abs(preSearch.positions[word][t][w] - preSearch.positions[affected][t][a]);
+                                                
+                                                if (distance < minDistance)
+                                                {
+                                                    minDistance = distance;
+                                                }
+                                            }
+                                        }
+                                        closerInTxt[t] = minDistance / (minDistance + 2);
+                                    }
+                                }   
                             }
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            // Do nothing, there are no words to compare closeness
                         }
                     }
                 }
@@ -185,11 +217,19 @@ public class Moogle
                 }
             }
 
-            // Showing all matches except the ones that have 0 as TF for query
-            
+            // Showing all matches except the ones that have 0 as TF for query     
             if (txt.Item1 != 0 && snippets[word][txtCounter] != null)
-            {
-                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], Math.Truncate(txt.Item1*1000) / 1000);
+            {             
+                double score;
+                if (closeness.Item1)
+                {
+                    score = (Math.Truncate(((txt.Item1) + closerInTxt[txtCounter]) * 1000) / 1000);
+                }
+                else
+                {
+                    score = Math.Truncate(txt.Item1*1000) / 1000;
+                }
+                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], score);
                 count++;
             }  
             txtCounter++; 
