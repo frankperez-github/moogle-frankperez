@@ -103,13 +103,13 @@ public class preSearch
                     else //Creating Dict inside Dict
                     {
                         positionsDict[actualWords[i]].Add(t, positionsArr);
-                        positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
+                        positionsDict[actualWords[i]][t] = positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
                     }
                 }
                 else // Creating
                 {
                     Dictionary<int, int[]> posit = new Dictionary<int, int[]>();
-                    positionsArr.ToList().Append(i).ToArray();
+                    positionsArr = positionsArr.ToList().Append(i).ToArray();
                     posit.Add(t, positionsArr);
                     positionsDict.Add(actualWords[i], posit);
                 }
