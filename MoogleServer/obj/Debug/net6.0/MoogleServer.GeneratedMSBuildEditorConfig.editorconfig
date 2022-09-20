@@ -8,33 +8,33 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MoogleServer
 build_property.RootNamespace = MoogleServer
-build_property.ProjectDir = /media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/
+build_property.ProjectDir = /media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer
+build_property.MSBuildProjectDirectory = /media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer
 build_property._RazorSourceGeneratorDebug = 
 
-[/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/App.razor]
+[/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/_Imports.razor]
+[/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/Pages/Index.razor]
+[/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-3asepffdpk
 
-[/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/Shared/MainLayout.razor]
+[/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-gaqtyc956i
 
-[/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/Pages/_Host.cshtml]
+[/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/Pages/_Layout.cshtml]
+[/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

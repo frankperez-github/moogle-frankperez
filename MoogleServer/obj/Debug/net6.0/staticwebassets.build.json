@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "nuXA6PMpmr6l9+4VMRuAH6YtTUIpGLZDDSOTkUIYv/A=",
+  "Hash": "xnGeYl9wGvGJPNFGAc+FgR1DUr/OZQJ+q4idIDmUDdQ=",
   "Source": "MoogleServer",
   "BasePath": "_content/MoogleServer",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "MoogleServer/wwwroot",
       "Source": "MoogleServer",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/obj/Debug/net6.0/scopedcss/bundle/MoogleServer.styles.css",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/obj/Debug/net6.0/scopedcss/bundle/MoogleServer.styles.css",
       "SourceId": "MoogleServer",
       "SourceType": "Computed",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/obj/Debug/net6.0/scopedcss/bundle/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/obj/Debug/net6.0/scopedcss/bundle/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "MoogleServer.styles.css",
       "AssetKind": "All",
@@ -31,13 +31,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/obj/Debug/net6.0/scopedcss/bundle/MoogleServer.styles.css"
+      "OriginalItemSpec": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/obj/Debug/net6.0/scopedcss/bundle/MoogleServer.styles.css"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/obj/Debug/net6.0/scopedcss/projectbundle/MoogleServer.bundle.scp.css",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/obj/Debug/net6.0/scopedcss/projectbundle/MoogleServer.bundle.scp.css",
       "SourceId": "MoogleServer",
       "SourceType": "Computed",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/obj/Debug/net6.0/scopedcss/projectbundle/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/obj/Debug/net6.0/scopedcss/projectbundle/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "MoogleServer.bundle.scp.css",
       "AssetKind": "All",
@@ -48,13 +48,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/obj/Debug/net6.0/scopedcss/projectbundle/MoogleServer.bundle.scp.css"
+      "OriginalItemSpec": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/obj/Debug/net6.0/scopedcss/projectbundle/MoogleServer.bundle.scp.css"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/bootstrap/bootstrap.min.css",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/bootstrap/bootstrap.min.css",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot/css/bootstrap/bootstrap.min.css"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/bootstrap/bootstrap.min.css.map",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/bootstrap/bootstrap.min.css.map",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot/css/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/FONT-LICENSE",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/FONT-LICENSE",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/FONT-LICENSE",
       "AssetKind": "All",
@@ -102,10 +102,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/FONT-LICENSE"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "AssetKind": "All",
@@ -119,10 +119,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.eot",
       "AssetKind": "All",
@@ -136,10 +136,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.eot"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.otf",
       "AssetKind": "All",
@@ -153,10 +153,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.otf"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.svg",
       "AssetKind": "All",
@@ -170,10 +170,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.svg"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.ttf",
       "AssetKind": "All",
@@ -187,10 +187,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.ttf"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.woff",
       "AssetKind": "All",
@@ -204,10 +204,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/font/fonts/open-iconic.woff"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/ICON-LICENSE",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/ICON-LICENSE",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/ICON-LICENSE",
       "AssetKind": "All",
@@ -221,10 +221,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/ICON-LICENSE"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/open-iconic/README.md",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/open-iconic/README.md",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/open-iconic/README.md",
       "AssetKind": "All",
@@ -238,10 +238,10 @@
       "OriginalItemSpec": "wwwroot/css/open-iconic/README.md"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/css/site.css",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/css/site.css",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -255,10 +255,10 @@
       "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/favicon.ico",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/favicon.ico",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -272,10 +272,10 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/Moogle logo-02.svg",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/Moogle logo-02.svg",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "Moogle logo-02.svg",
       "AssetKind": "All",
@@ -289,10 +289,10 @@
       "OriginalItemSpec": "wwwroot/Moogle logo-02.svg"
     },
     {
-      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/Moogle lupa-03.svg",
+      "Identity": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/Moogle lupa-03.svg",
       "SourceId": "MoogleServer",
       "SourceType": "Discovered",
-      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleServer/wwwroot/",
+      "ContentRoot": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleServer/wwwroot/",
       "BasePath": "_content/MoogleServer",
       "RelativePath": "Moogle lupa-03.svg",
       "AssetKind": "All",

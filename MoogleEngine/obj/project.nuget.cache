@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IR5Aed5pbB0LzKBAB+GAtNdlKZIfMJgqP7yYHGSSZ6C0OouyWcJSmAvPmqv9veA0CdTfb/nE6xQoKdyHufEqQQ==",
+  "dgSpecHash": "mNqKIi3Jp7pW+KnWq0yLi4SYyyAu4IuImSkje18OWSDC+5pv2Y1+LUWzW7LmKKpnf84QaRdVEKqNIrsnva21zw==",
   "success": true,
-  "projectFilePath": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle/MoogleEngine/MoogleEngine.csproj",
+  "projectFilePath": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleEngine/MoogleEngine.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

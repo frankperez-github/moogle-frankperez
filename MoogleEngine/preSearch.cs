@@ -68,14 +68,12 @@ public class preSearch
         // Delay time of TF
         Stopwatch crono = new Stopwatch();
         crono.Start();
-
         
         // For each text computing TF to words
         for (int t = 0; t < totalTXTs; t++)
         {
             // Loading array of words of acual txt
             string[] actualWords = TXTsContent[filesAdresses[t]];
-
             int[] positionsArr = {};
             
             // Fulling TF dict
@@ -85,16 +83,16 @@ public class preSearch
                 double[] TFs = new double[filesAdresses.Length];
 
                 // If word already exists, just add (1 / length of doc.) to TF, else add it to dict
-                if (TF.ContainsKey(actualWords[i].ToLower()))
+                if (TF.ContainsKey(actualWords[i]))
                 {
                     TF[actualWords[i]][t] += (double)(1.00 / (double)actualWords.Length); 
                 }
                 else
                 {
-                    TF.Add(actualWords[i].ToLower(), TFs);
+                    TF.Add(actualWords[i], TFs);
                     TF[actualWords[i]][t] += (double)(1.00 / (double)actualWords.Length);
                 }
-
+                
                 // Saving positions of word
                 if (positionsDict.ContainsKey(actualWords[i])) // Updating
                 {
@@ -111,14 +109,12 @@ public class preSearch
                 else // Creating
                 {
                     Dictionary<int, int[]> posit = new Dictionary<int, int[]>();
-                    positionsArr.ToList().Append(i);
+                    positionsArr.ToList().Append(i).ToArray();
                     posit.Add(t, positionsArr);
                     positionsDict.Add(actualWords[i], posit);
                 }
             }
-
         }   
-        
         
         Console.WriteLine("TF Finished in: "+(double)crono.ElapsedMilliseconds/1000+" secs.⌚");
         crono.Stop();
@@ -161,9 +157,7 @@ public class preSearch
                         iDF.Add(tf.Key.ToLower(), 1);
                     }
                 }
-            } 
-
-            
+            }     
         }
 
         foreach(var idf in iDF)

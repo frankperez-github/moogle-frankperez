@@ -36,8 +36,7 @@ public class Moogle
                 // TF of each word in query
                 try
                 {
-                    if(TF[word][i] < 0.02) //0.02 = 1/5, 20% of total of word. If a word appears in less than 20% of total of words, it is not important
-                    
+                    if(TF[word][i] < 0.04) //4% of total of word. If a word appears in more than 4% of total of words, it is not important for that txt
                     {
                         queryTF += TF[word][i];
                     }
@@ -54,7 +53,7 @@ public class Moogle
                 // iDF of each word in query
                 try
                 {
-                    if(iDF[word] > 0.02) //0.02 = 1/5, 20% of total of texts. If a word appears in more than 20% of total of texts, it is not important
+                    if(((1.00/(iDF[word])) / filesAdresses.Length) < 0.7) // 70% of total of texts. If a word appears in more than 70% of total of texts, it is not important
                     {
                         queryiDF += iDF[word];
                     }
@@ -138,8 +137,8 @@ public class Moogle
                     {
                         string word = pair.Key;
                         string[] AffectedWords = pair.Value;
-                        try
-                        {
+                        // try
+                        // {
                             foreach (var affected in AffectedWords)
                             {
 
@@ -148,13 +147,14 @@ public class Moogle
 
                                     for (int t = 0; t < filesAdresses.Length; t++)
                                     {
+                                        Console.WriteLine(positionsDict[word][t]);
 
-                                        // int lWordAppears = positionsDict[word][t].Count();
+
+                                        // int lWordAppears = positionsDict[word][t].Length;
                                         // int rWordAppears = positionsDict[affected][t].Length;
                                         int minDistance = int.MaxValue;
                                         
-                                        Console.WriteLine(pair);
-
+                                        // Console.WriteLine("hey");
 
                                         
                                         // for (int w = 0; w < lWordAppears; w++)
@@ -169,18 +169,14 @@ public class Moogle
                                         //         }
                                         //     }
                                         // }
-                                        if (minDistance != 0)
-                                        {
-                                            // closerInTxt[t] = 1 / minDistance;
-                                        }
+                                        // if (minDistance != 0)
+                                        // {
+                                        //     // closerInTxt[t] = 1 / minDistance;
+                                        // }
                                     }
                                 }   
                             }
-                        }
-                        catch (KeyNotFoundException)
-                        {
-                            // Do nothing, there are no words to compare closeness
-                        }
+                        // }
                     }
                 }
             }
