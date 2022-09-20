@@ -46,7 +46,7 @@ public class preSearch
     // Principal Methods
 
     // Storaging positions of all words in database
-    public static Dictionary<string, Dictionary<int, int[]>> positions = new Dictionary<string , Dictionary<int, int[]>>();
+    public static Dictionary<string, Dictionary<int, int[]>> positionsDict = new Dictionary<string , Dictionary<int, int[]>>();
    
     public static Dictionary<string, double[]> TF()
     // This method compute TF of all words in all texts and storage it in a dict  <word, TF values[]> pairs 
@@ -96,16 +96,16 @@ public class preSearch
                 }
 
                 // Saving positions of word
-                if (positions.ContainsKey(actualWords[i])) // Updating
+                if (positionsDict.ContainsKey(actualWords[i])) // Updating
                 {
-                    if (positions[actualWords[i]].ContainsKey(t)) //Updating Dict inside Dict
+                    if (positionsDict[actualWords[i]].ContainsKey(t)) //Updating Dict inside Dict
                     {
-                        positions[actualWords[i]][t].ToList().Append(i).ToArray();
+                        positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
                     }
                     else //Creating Dict inside Dict
                     {
-                        positions[actualWords[i]].Add(t, positionsArr);
-                        positions[actualWords[i]][t].ToList().Append(i).ToArray();
+                        positionsDict[actualWords[i]].Add(t, positionsArr);
+                        positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
                     }
                 }
                 else // Creating
@@ -113,7 +113,7 @@ public class preSearch
                     Dictionary<int, int[]> posit = new Dictionary<int, int[]>();
                     positionsArr.ToList().Append(i);
                     posit.Add(t, positionsArr);
-                    positions.Add(actualWords[i], posit);
+                    positionsDict.Add(actualWords[i], posit);
                 }
             }
 

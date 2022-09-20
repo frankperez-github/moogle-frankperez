@@ -63,7 +63,7 @@ namespace MoogleEngine
                         // First word from pair affected by operator
                         if (query[c] != ' ') 
                         {
-                            for(int j = c-1; j >= 0; j--)
+                            for(int j = c; j >= 0; j--)
                             {
                                 if (query[j] == ' ' || j == 0)
                                 {
@@ -82,7 +82,7 @@ namespace MoogleEngine
                         // Second word from pair
                         if (query[c] != ' ') 
                         {
-                            for(int j = c+1; j < query.Length; j++)
+                            for(int j = c; j < query.Length; j++)
                             {
                                 if (query[j] == ' ' || j == query.Length - 1)
                                 {

@@ -2,7 +2,7 @@
 
 public class Moogle
 {
-    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets) {
+    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets, Dictionary<string, Dictionary<int, int[]>> positionsDict) {
 
         // Looking for search operators
         (bool, string[]) nonPresent = operators.nonPresent(query);
@@ -142,28 +142,37 @@ public class Moogle
                         {
                             foreach (var affected in AffectedWords)
                             {
+
                                 if (word != affected)
                                 {
+
                                     for (int t = 0; t < filesAdresses.Length; t++)
                                     {
 
-                                        int wordAppears = preSearch.positions[word][t].Length;
-                                        int affectedAppears = preSearch.positions[affected][t].Length;
+                                        // int lWordAppears = positionsDict[word][t].Count();
+                                        // int rWordAppears = positionsDict[affected][t].Length;
                                         int minDistance = int.MaxValue;
                                         
-                                        for (int w = 0; w < wordAppears; w++)
-                                        {
-                                            for (int a = 0; a < affectedAppears; a++)
-                                            {
-                                                int distance = Math.Abs(preSearch.positions[word][t][w] - preSearch.positions[affected][t][a]);
+                                        Console.WriteLine(pair);
+
+
+                                        
+                                        // for (int w = 0; w < lWordAppears; w++)
+                                        // {
+                                        //     for (int a = 0; a < rWordAppears; a++)
+                                        //     {
+                                        //         int distance = Math.Abs(preSearch.positions[word][t][w] - preSearch.positions[affected][t][a]);
                                                 
-                                                if (distance < minDistance)
-                                                {
-                                                    minDistance = distance;
-                                                }
-                                            }
+                                        //         if (distance < minDistance)
+                                        //         {
+                                        //             minDistance = distance;
+                                        //         }
+                                        //     }
+                                        // }
+                                        if (minDistance != 0)
+                                        {
+                                            // closerInTxt[t] = 1 / minDistance;
                                         }
-                                        closerInTxt[t] = minDistance / (minDistance + 2);
                                     }
                                 }   
                             }

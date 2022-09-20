@@ -39,10 +39,11 @@
     Dictionary<string, double[]> TF =  MoogleServer.Program.TF;
     Dictionary<string, double> iDF =  MoogleServer.Program.iDF;
     Dictionary<string, string[]> snippets = MoogleServer.Program.snippets;
+    Dictionary<string, Dictionary<int, int[]>> positionsDict = MoogleServer.Program.positionsDict;
 
     private void RunQuery() {
         if(query != String.Empty){
-        result = Moogle.Query(query, TF, iDF, snippets);
+        result = Moogle.Query(query, TF, iDF, snippets, positionsDict);
         }
     }
 }
