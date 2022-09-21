@@ -192,12 +192,6 @@ public class Moogle
             }
         }
         
-        //In case of not results founded
-        if (validMatches == 0)
-        {
-            SearchItem[] emptySearch = {new SearchItem("No matches founded", "...", 0, "#")};
-            return new SearchResult(emptySearch);
-        }
 
         // If there are results to show
         SearchItem[] items = new SearchItem[validMatches];
@@ -205,7 +199,7 @@ public class Moogle
 
         // Fulling items to be returned
         int txtCounter = 0;
-        foreach (var txt in Match)
+        foreach (var match in Match)
         {
             // txt.Item2 es adress of txt, 
             // txt.Item1 is score of txt
@@ -223,21 +217,52 @@ public class Moogle
             }
 
             // Showing all matches except the ones that have 0 as TF for query     
-            if (txt.Item1 != 0 && snippets[word][txtCounter] != null)
+            if (match.Item1 != 0 && snippets[word][txtCounter] != null)
             {             
                 double score;
                 if (closeness.Item1)
                 {
-                    score = (Math.Truncate(((txt.Item1) + closerInTxt[txtCounter]) * 1000) / 1000);
+                    score = (Math.Truncate(((match.Item1) + closerInTxt[txtCounter]) * 1000) / 1000);
                 }
                 else
                 {
-                    score = Math.Truncate(txt.Item1*1000) / 1000;
+                    score = Math.Truncate(match.Item1*1000) / 1000;
                 }
-                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], score, txt.Item2);
+                items[count] = new SearchItem(snippets[word][txtCounter], score, match.Item2);
                 count++;
             }  
             txtCounter++; 
+
+            // If there are few results maybe query was wrong
+            // Looking for best word in database to suggest using Hammming distance
+            if (validMatches < 5)
+            {
+                string newQuery;
+
+                foreach (string Word in queryWords)
+                {
+                    int diff = 0;
+                    foreach (var w in TF)
+                    {
+                        int minLength = Math.Min(Word.Length, w.Key.Length);
+                        for (int c = 0; c < minLength; c++)
+                        {
+                            if (Word[c] != w.Key[c])
+                            {
+                                diff++;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            //In case of not results founded
+            if (validMatches == 0)
+            {
+                SearchItem[] emptyResult = {new SearchItem("No matches", 0, "#")};
+                return new SearchResult(emptyResult, query);
+            }
         }
         
         // Sorting items by Cos(angule)

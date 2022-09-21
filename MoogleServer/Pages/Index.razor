@@ -24,11 +24,24 @@
 @foreach (var item in result.Items()) {
     
     <li class="result">
-        <a class="item" @onclick="() => showTxt(item.Address)" target="_blank" href="/Text">
-            <p class="title" >@item.Title</p>
-            <p class="snippet">... @item.Snippet ...</p>
-            <p class="score">Score: @item.Score</p> 
-        </a>
+
+        @if (item.Address != "#"){
+
+            string title = item.Address.Split("../Content/")[1];
+
+            <a class="item" @onclick="() => showTxt(item.Address)" target="_blank" href="/Text">
+                <p class="title" >@title</p>
+                <p class="snippet">... @item.Snippet ...</p>
+                <p class="score">Score: @item.Score</p> 
+            </a>
+        }
+        else
+        {
+            <a class="item">
+                <p class="title" >No matches founded</p>
+                <p class="score">Score: @item.Score</p> 
+            </a>
+        }
 
     </li>
 }
