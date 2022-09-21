@@ -1,4 +1,11 @@
 /* _content/MoogleServer/Pages/Index.razor.rz.scp.css */
+.item[b-3asepffdpk]{
+    text-decoration: none;
+    color: black;
+}
+.result[b-3asepffdpk]{
+    cursor: pointer;
+}
 .results[b-3asepffdpk] {
     text-align: left;
 }
@@ -39,6 +46,15 @@
 }
 ul[b-3asepffdpk]{
     list-style:none;   
+}
+/* _content/MoogleServer/Pages/Text.razor.rz.scp.css */
+
+.Content[b-du41ys5q32]{
+    max-width: 100%;
+    width: 50%;
+}
+.txtCont[b-du41ys5q32]{
+    width: 80%;
 }
 /* _content/MoogleServer/Shared/MainLayout.razor.rz.scp.css */
 .page[b-gaqtyc956i] {

@@ -1,0 +1,17 @@
+@page "/Text"
+
+@{
+    string address = Index.Address;
+    string title = (Index.Address.Split("../Content/")[1]).Split(".txt")[0];
+    string content = File.ReadAllText(address);
+}
+
+<PageTitle>@title</PageTitle>
+
+<h2>@title</h2>
+
+<div class="Content">
+    <p class="txtCont">
+        @content
+    </p>
+</div>

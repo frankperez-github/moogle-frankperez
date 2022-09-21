@@ -19,14 +19,17 @@
     </div>
 }
 
+
 <ul class="results">
 @foreach (var item in result.Items()) {
+    
     <li class="result">
-        <div class="item">
-            <p class="title">@item.Title</p>
+        <a class="item" @onclick="() => showTxt(item.Address)" target="_blank" href="/Text">
+            <p class="title" >@item.Title</p>
             <p class="snippet">... @item.Snippet ...</p>
-            <p class="score">Score: @item.Score</p>
-        </div>
+            <p class="score">Score: @item.Score</p> 
+        </a>
+
     </li>
 }
 </ul>
@@ -45,5 +48,12 @@
         if(query != String.Empty){
         result = Moogle.Query(query, TF, iDF, snippets, positionsDict);
         }
+    }
+
+    public static string Address = "";
+
+    private void showTxt(string address)
+    {
+        Address = address;
     }
 }

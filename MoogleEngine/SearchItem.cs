@@ -2,14 +2,17 @@ namespace MoogleEngine;
 
 public class SearchItem
 {
-    public SearchItem(string title, string snippet, double score)
+    public SearchItem(string title, string snippet, double score, string address)
     {
         this.Title = title;
         this.Snippet = snippet;
         this.Score = score;
+        this.Address = address;
     }
 
     public string Title { get; private set; }
+    
+    public string Address { get; private set; }
 
     public string Snippet { get; private set; }
 

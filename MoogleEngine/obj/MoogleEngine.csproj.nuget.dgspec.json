@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleEngine/MoogleEngine.csproj": {}
+    "/media/frankperez/Windows/Local Disk/Moogle Project/Moogle/moogle-frankperez/MoogleEngine/MoogleEngine.csproj": {}
   },
   "projects": {
-    "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleEngine/MoogleEngine.csproj": {
+    "/media/frankperez/Windows/Local Disk/Moogle Project/Moogle/moogle-frankperez/MoogleEngine/MoogleEngine.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleEngine/MoogleEngine.csproj",
+        "projectUniqueName": "/media/frankperez/Windows/Local Disk/Moogle Project/Moogle/moogle-frankperez/MoogleEngine/MoogleEngine.csproj",
         "projectName": "MoogleEngine",
-        "projectPath": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleEngine/MoogleEngine.csproj",
+        "projectPath": "/media/frankperez/Windows/Local Disk/Moogle Project/Moogle/moogle-frankperez/MoogleEngine/MoogleEngine.csproj",
         "packagesPath": "/home/frankperez/.nuget/packages/",
-        "outputPath": "/media/frankperez/Windows/Local Disk/Moogle Project/moogle-frankperez/MoogleEngine/obj/",
+        "outputPath": "/media/frankperez/Windows/Local Disk/Moogle Project/Moogle/moogle-frankperez/MoogleEngine/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/frankperez/.nuget/NuGet/NuGet.Config"

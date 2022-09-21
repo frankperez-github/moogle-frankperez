@@ -1,3 +1,10 @@
+.item{
+    text-decoration: none;
+    color: black;
+}
+.result{
+    cursor: pointer;
+}
 .results {
     text-align: left;
 }

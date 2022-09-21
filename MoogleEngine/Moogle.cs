@@ -147,7 +147,7 @@ public class Moogle
 
                                     for (int t = 0; t < filesAdresses.Length; t++)
                                     {
-                                        Console.WriteLine(positionsDict[word][t]);
+                                        Console.WriteLine(positionsDict[word][t].Length);
 
 
                                         // int lWordAppears = positionsDict[word][t].Length;
@@ -195,7 +195,7 @@ public class Moogle
         //In case of not results founded
         if (validMatches == 0)
         {
-            SearchItem[] emptySearch = {new SearchItem("No matches founded", "...", 0)};
+            SearchItem[] emptySearch = {new SearchItem("No matches founded", "...", 0, "#")};
             return new SearchResult(emptySearch);
         }
 
@@ -234,7 +234,7 @@ public class Moogle
                 {
                     score = Math.Truncate(txt.Item1*1000) / 1000;
                 }
-                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], score);
+                items[count] = new SearchItem(txt.Item2.Split("../Content/")[1], snippets[word][txtCounter], score, txt.Item2);
                 count++;
             }  
             txtCounter++; 

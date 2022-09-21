@@ -43,8 +43,10 @@ public class preSearch
         return words;
     }
 
-    // Principal Methods
 
+
+    // Principal Methods
+    
     // Storaging positions of all words in database
     public static Dictionary<string, Dictionary<int, int[]>> positionsDict = new Dictionary<string , Dictionary<int, int[]>>();
    
@@ -74,7 +76,7 @@ public class preSearch
         {
             // Loading array of words of acual txt
             string[] actualWords = TXTsContent[filesAdresses[t]];
-            int[] positionsArr = {};
+            
             
             // Fulling TF dict
             for (int i = 0; i < actualWords.Length; i++)
@@ -92,25 +94,33 @@ public class preSearch
                     TF.Add(actualWords[i], TFs);
                     TF[actualWords[i]][t] += (double)(1.00 / (double)actualWords.Length);
                 }
-                
                 // Saving positions of word
                 if (positionsDict.ContainsKey(actualWords[i])) // Updating
                 {
                     if (positionsDict[actualWords[i]].ContainsKey(t)) //Updating Dict inside Dict
                     {
-                        positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
-                    }
-                    else //Creating Dict inside Dict
-                    {
-                        positionsDict[actualWords[i]].Add(t, positionsArr);
                         positionsDict[actualWords[i]][t] = positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
+                        // else //Creating Dict inside Dict
+                        // {
+                        //     if(t == 0)
+                        //     {
+                        //         Console.WriteLine("hey");
+                        //     }
+                        //     List<int> positionsList = new List<int>();
+                        //     positionsList = new int[1].ToList();
+                        //     positionsList[0] = i;
+                        //     positionsDict[actualWords[i]].Add(t, positionsList.ToArray());
+                        // }
                     }
+
                 }
                 else // Creating
                 {
+                    int[] positionsList = new int[1];
+                    positionsList[0] = i;
                     Dictionary<int, int[]> posit = new Dictionary<int, int[]>();
-                    positionsArr = positionsArr.ToList().Append(i).ToArray();
-                    posit.Add(t, positionsArr);
+                    
+                    posit.Add(t, positionsList);
                     positionsDict.Add(actualWords[i], posit);
                 }
             }
