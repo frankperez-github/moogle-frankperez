@@ -237,24 +237,41 @@ public class Moogle
             // Looking for best word in database to suggest using Hammming distance
             if (validMatches < 5)
             {
-                string newQuery;
+                string[] newQuery = new string[queryWords.Length];
+                int wordCounter = 0;
 
                 foreach (string Word in queryWords)
                 {
-                    int diff = 0;
-                    foreach (var w in TF)
+                    int minDif = int.MaxValue;
+                    string bestSug = "";
+
+                    // Looking for most similar word in database (words in TF)
+                    foreach (var posibleSug in TF)
                     {
-                        int minLength = Math.Min(Word.Length, w.Key.Length);
+                        int diff = 0;
+                        int minLength = Math.Min(Word.Length, posibleSug.Key.Length);
+
+                        // Comparing each character of words
                         for (int c = 0; c < minLength; c++)
                         {
-                            if (Word[c] != w.Key[c])
+                            if (Word[c] != posibleSug.Key[c])
                             {
                                 diff++;
                             }
                         }
+                        // Adding to diff, difference of length of both words
+                        diff += Math.Max(Word.Length, posibleSug.Key.Length) - Math.Min(Word.Length, posibleSug.Key.Length);
+                        
+                        if (diff < minDif)
+                        {
+                            minDif = diff;
+                            bestSug = posibleSug.Key;
+                        }
                     }
-
+                    newQuery[wordCounter] = bestSug;
+                    wordCounter++;
                 }
+                query = string.Join(' ', newQuery);
             }
 
             //In case of not results founded
