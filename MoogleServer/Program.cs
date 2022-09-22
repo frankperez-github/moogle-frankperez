@@ -16,6 +16,7 @@ class Program
     // Loading positions of word to be ready to use it in closeness operator
      public static Dictionary<string, Dictionary<int, int[]>> positionsDict = preSearch.positionsDict;
 
+
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -40,5 +41,6 @@ class Program
         app.MapFallbackToPage("/_Host");
 
         app.Run();
+
     }
 }

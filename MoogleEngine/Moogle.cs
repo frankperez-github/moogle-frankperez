@@ -39,7 +39,7 @@ public class Moogle
                 // TF of each word in query
                 try
                 {
-                    if(TF[word][i] < 0.04) //4% of total of word. If a word appears in more than 4% of total of words, it is not important for that txt
+                    if(TF[word][i] < 0.03) //3% of total of word. If a word appears in more than 4% of total of words, it is not important for that txt
                     {
                         queryTF += TF[word][i];
                     }
@@ -140,46 +140,43 @@ public class Moogle
                     {
                         string word = pair.Key;
                         string[] AffectedWords = pair.Value;
-                        // try
-                        // {
-                            foreach (var affected in AffectedWords)
+                        foreach (var affected in AffectedWords)
+                        {
+
+                            if (word != affected)
                             {
 
-                                if (word != affected)
+                                for (int t = 0; t < filesAdresses.Length; t++)
                                 {
-
-                                    for (int t = 0; t < filesAdresses.Length; t++)
-                                    {
-                                        Console.WriteLine(positionsDict[word][t].Length);
+                                    Console.WriteLine(positionsDict[word][t].Length);
 
 
-                                        // int lWordAppears = positionsDict[word][t].Length;
-                                        // int rWordAppears = positionsDict[affected][t].Length;
-                                        int minDistance = int.MaxValue;
-                                        
-                                        // Console.WriteLine("hey");
+                                    // int lWordAppears = positionsDict[word][t].Length;
+                                    // int rWordAppears = positionsDict[affected][t].Length;
+                                    int minDistance = int.MaxValue;
+                                    
+                                    // Console.WriteLine("hey");
 
-                                        
-                                        // for (int w = 0; w < lWordAppears; w++)
-                                        // {
-                                        //     for (int a = 0; a < rWordAppears; a++)
-                                        //     {
-                                        //         int distance = Math.Abs(preSearch.positions[word][t][w] - preSearch.positions[affected][t][a]);
-                                                
-                                        //         if (distance < minDistance)
-                                        //         {
-                                        //             minDistance = distance;
-                                        //         }
-                                        //     }
-                                        // }
-                                        // if (minDistance != 0)
-                                        // {
-                                        //     // closenessInTxt[t] = 1 / minDistance;
-                                        // }
-                                    }
-                                }   
-                            }
-                        // }
+                                    
+                                    // for (int w = 0; w < lWordAppears; w++)
+                                    // {
+                                    //     for (int a = 0; a < rWordAppears; a++)
+                                    //     {
+                                    //         int distance = Math.Abs(preSearch.positions[word][t][w] - preSearch.positions[affected][t][a]);
+                                            
+                                    //         if (distance < minDistance)
+                                    //         {
+                                    //             minDistance = distance;
+                                    //         }
+                                    //     }
+                                    // }
+                                    // if (minDistance != 0)
+                                    // {
+                                    //     // closenessInTxt[t] = 1 / minDistance;
+                                    // }
+                                }
+                            }   
+                        }
                     }
                 }
             }
@@ -211,8 +208,8 @@ public class Moogle
 
             // Looking for more important word in query(bigger iDF), word most appear in txt
             for (int i = 0; i < queryWords.Length; i++)
-            {    
-                if (iDF.ContainsKey(queryWords[i]) && iDF[queryWords[i]] > max && TF[queryWords[i]][txtCounter]!= 0)
+            {                                                                                                                       // TF must be != 0.All results have snippets, no matter wich word of query it has
+                if (iDF.ContainsKey(queryWords[i]) && TF[queryWords[i]][txtCounter] < 0.03 && iDF[queryWords[i]] > max && TF[queryWords[i]][txtCounter]!= 0)
                 {
                     max = iDF[queryWords[i]];
                     word = queryWords[i]; // Most important word will decide which snippet will be showed
@@ -232,8 +229,10 @@ public class Moogle
                     score = Math.Truncate(match.Item1*1000) / 1000;
                 }
                 items[count] = new SearchItem(snippets[word][txtCounter], score, match.Item2);
+
                 count++;
             }  
+
             txtCounter++; 
 
             // If there are few results maybe query was wrong
