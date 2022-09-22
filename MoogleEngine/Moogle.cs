@@ -1,5 +1,5 @@
 ﻿namespace MoogleEngine;
-
+using System.Text.Json;
 public class Moogle
 {
     public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets, Dictionary<string, Dictionary<int, int[]>> positionsDict) {
@@ -14,13 +14,16 @@ public class Moogle
         string[] queryWords = preSearch.SplitInWords(query);
 
         // Texts in Database
-        string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");
+        string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");    
 
-        // Array of txt's anguleCos and adress
+        // Loading dictionary of synonimous
+        Dictionary<string, string[]> synonim = JsonSerializer.Deserialize<Dictionary<string, string[]>>(File.ReadAllText("../MoogleEngine/synonim.json"));
+
+        // Array of txt's anguleCos and address
         (double, string)[] Match = new (double, string)[filesAdresses.Length];
 
         
-        int[] closerInTxt = new int[filesAdresses.Length]; // Final results of calculating distance between words
+        int[] closenessInTxt = new int[filesAdresses.Length]; // Final results of calculating distance between words
 
 
         // Looking best match in all txt
@@ -171,7 +174,7 @@ public class Moogle
                                         // }
                                         // if (minDistance != 0)
                                         // {
-                                        //     // closerInTxt[t] = 1 / minDistance;
+                                        //     // closenessInTxt[t] = 1 / minDistance;
                                         // }
                                     }
                                 }   
@@ -222,7 +225,7 @@ public class Moogle
                 double score;
                 if (closeness.Item1)
                 {
-                    score = (Math.Truncate(((match.Item1) + closerInTxt[txtCounter]) * 1000) / 1000);
+                    score = (Math.Truncate(((match.Item1) + closenessInTxt[txtCounter]) * 1000) / 1000);
                 }
                 else
                 {

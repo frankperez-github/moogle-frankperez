@@ -46,7 +46,7 @@ public class preSearch
 
 
     // Principal Methods
-    
+
     // Storaging positions of all words in database
     public static Dictionary<string, Dictionary<int, int[]>> positionsDict = new Dictionary<string , Dictionary<int, int[]>>();
    
@@ -213,14 +213,20 @@ public class preSearch
                     // Inserting words and it's snippets in actual txt to snippets Dict
                     foreach (string lineWord in Line)
                     {
-                        if (snippets.ContainsKey(lineWord))
-                        {
-                            snippets[lineWord][txtCounter] = line;
-                        }
-                        else
-                        {
-                            txtSnippet[txtCounter] = line;
-                            snippets.Add(lineWord, txtSnippet);
+                        if (lineWord != null){
+
+                            string newWord = "**"+lineWord+"**";
+                            line.Replace(lineWord, newWord.ToUpper());
+
+                            if (snippets.ContainsKey(lineWord))
+                            {
+                                snippets[lineWord][txtCounter] = line;
+                            }
+                            else
+                            {
+                                txtSnippet[txtCounter] = line;
+                                snippets.Add(lineWord, txtSnippet);
+                            }
                         }
                     }
                 }   
