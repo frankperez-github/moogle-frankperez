@@ -2,7 +2,7 @@
 using System.Text.Json;
 public class Moogle
 {
-    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets, Dictionary<string, Dictionary<int, int[]>> positionsDict) {
+    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets) {
 
         // Looking for search operators
         (bool, string[]) nonPresent = operators.nonPresent(query);
@@ -15,9 +15,6 @@ public class Moogle
 
         // Texts in Database
         string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");    
-
-        // Loading dictionary of synonimous
-        Dictionary<string, string[]> synonim = JsonSerializer.Deserialize<Dictionary<string, string[]>>(File.ReadAllText("../MoogleEngine/synonim.json"));
 
         // Array of txt's anguleCos and address
         (double, string)[] Match = new (double, string)[filesAdresses.Length];
@@ -49,9 +46,7 @@ public class Moogle
                     }
                 }
                 catch (KeyNotFoundException)
-                {
-                    queryTF += 0;
-                }
+                {}
 
                 // iDF of each word in query
                 try
@@ -62,13 +57,11 @@ public class Moogle
                     }
                     else
                     {
-                        queryiDF += 0;
+                        iDF[word] = 0;
                     }
                 }
                 catch (KeyNotFoundException)
-                {
-                    queryiDF += 0;
-                }
+                {}
             }
 
             // * operator
@@ -136,46 +129,46 @@ public class Moogle
                 // ~ operator
                 if (closeness.Item1)
                 {
+                    System.Diagnostics.Stopwatch crono = new System.Diagnostics.Stopwatch();
+                    crono.Start();
                     foreach(var pair in closeness.Item2)
                     {
                         string word = pair.Key;
                         string[] AffectedWords = pair.Value;
                         foreach (var affected in AffectedWords)
                         {
-
                             if (word != affected)
                             {
-
                                 for (int t = 0; t < filesAdresses.Length; t++)
                                 {
-                                    Console.WriteLine(positionsDict[word][t].Length);
-
-
-                                    // int lWordAppears = positionsDict[word][t].Length;
-                                    // int rWordAppears = positionsDict[affected][t].Length;
                                     int minDistance = int.MaxValue;
-                                    
-                                    // Console.WriteLine("hey");
 
-                                    
-                                    // for (int w = 0; w < lWordAppears; w++)
-                                    // {
-                                    //     for (int a = 0; a < rWordAppears; a++)
-                                    //     {
-                                    //         int distance = Math.Abs(preSearch.positions[word][t][w] - preSearch.positions[affected][t][a]);
-                                            
-                                    //         if (distance < minDistance)
-                                    //         {
-                                    //             minDistance = distance;
-                                    //         }
-                                    //     }
-                                    // }
-                                    // if (minDistance != 0)
-                                    // {
-                                    //     // closenessInTxt[t] = 1 / minDistance;
-                                    // }
+                                    // Looking for words in text to calculate distance
+                                    if (iDF.ContainsKey(word) && iDF.ContainsKey(affected) && TF[word][i] != 0 && TF[affected][i] != 0)
+                                    {
+                                        string[] textWords = preSearch.SplitInWords(File.ReadAllText(filesAdresses[i]));
+                                        // for (int f = 0; f < textWords.Length; f++)
+                                        // {
+                                        //     if (textWords[f].ToLower() == word)
+                                        //     {
+                                        //         for (int r = 0; r < textWords.Length; r++)
+                                        //         {
+                                        //             if (textWords[f].ToLower() == affected)
+                                        //             {
+                                        //                 if (Math.Abs(f - r) < minDistance)
+                                        //                 {
+                                        //                     minDistance = Math.Abs(f - r);
+                                        //                 }
+                                        //             }
+                                        //         }
+                                        //     }
+                                        // }
+
+                                        // Min distance can be 0, in that case I will sum 0.5 to score
+                                        Match[i].Item1 += 1/(minDistance+2);
+                                    }
                                 }
-                            }   
+                            } 
                         }
                     }
                 }
@@ -203,13 +196,13 @@ public class Moogle
         {
             // txt.Item2 es adress of txt, 
             // txt.Item1 is score of txt
-            double max = double.MinValue;
+            double max = double.MaxValue;
             string word = "";
 
             // Looking for more important word in query(bigger iDF), word most appear in txt
             for (int i = 0; i < queryWords.Length; i++)
             {                                                                                                                       // TF must be != 0.All results have snippets, no matter wich word of query it has
-                if (iDF.ContainsKey(queryWords[i]) && TF[queryWords[i]][txtCounter] < 0.03 && iDF[queryWords[i]] > max && TF[queryWords[i]][txtCounter]!= 0)
+                if (iDF.ContainsKey(queryWords[i]) && iDF[queryWords[i]] < max && iDF[queryWords[i]] != 0 && TF[queryWords[i]][txtCounter]!= 0)
                 {
                     max = iDF[queryWords[i]];
                     word = queryWords[i]; // Most important word will decide which snippet will be showed
@@ -287,6 +280,18 @@ public class Moogle
         // Sorting items by Cos(angule)
         var sortedMatches = from item in items orderby item.Score descending select item;
         var results = sortedMatches.ToArray();
+
+        // If there are so much results showing best 10
+        if (results.Count() > 10)
+        {
+            SearchItem[] finalresults = new SearchItem[10];
+
+            for(int counter = 0; counter < 10; counter++)
+            {
+                finalresults[counter] = results[counter];
+            }
+            return new SearchResult(finalresults,query);
+        }
             
         return new SearchResult(results, query);
     }

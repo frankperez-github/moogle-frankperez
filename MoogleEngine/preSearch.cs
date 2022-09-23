@@ -2,8 +2,7 @@ using System.Diagnostics; // to use a crono
 
 public class preSearch
 {   
-
-    // Auxiliar methods
+    // AUXILIAR METHODS
     public static Dictionary<string, string[]> LoadTexts()
     {
         // Addresses of txts (GetFiles returns a string[])
@@ -46,7 +45,6 @@ public class preSearch
 
 
     // PPRINCIPAL METHODS
-
     // Storaging positions of all words in database
     public static Dictionary<string, Dictionary<int, int[]>> positionsDict = new Dictionary<string , Dictionary<int, int[]>>();
    
@@ -93,35 +91,6 @@ public class preSearch
                 {
                     TF.Add(actualWords[i], TFs);
                     TF[actualWords[i]][t] += (double)(1.00 / (double)actualWords.Length);
-                }
-                // Saving positions of word
-                if (positionsDict.ContainsKey(actualWords[i])) // Updating
-                {
-                    if (positionsDict[actualWords[i]].ContainsKey(t)) //Updating Dict inside Dict
-                    {
-                        positionsDict[actualWords[i]][t] = positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
-                        // else //Creating Dict inside Dict
-                        // {
-                        //     if(t == 0)
-                        //     {
-                        //         Console.WriteLine("hey");
-                        //     }
-                        //     List<int> positionsList = new List<int>();
-                        //     positionsList = new int[1].ToList();
-                        //     positionsList[0] = i;
-                        //     positionsDict[actualWords[i]].Add(t, positionsList.ToArray());
-                        // }
-                    }
-
-                }
-                else // Creating
-                {
-                    int[] positionsList = new int[1];
-                    positionsList[0] = i;
-                    Dictionary<int, int[]> posit = new Dictionary<int, int[]>();
-                    
-                    posit.Add(t, positionsList);
-                    positionsDict.Add(actualWords[i], posit);
                 }
             }
         }   
@@ -185,6 +154,7 @@ public class preSearch
     }
 
     public static Dictionary<string, string[]> snippets(Dictionary<string, double[]> TF)
+    // Loading snippets to show them on user's search
     {
         Stopwatch crono = new Stopwatch();
         crono.Start();
@@ -215,16 +185,14 @@ public class preSearch
                     {
                         if (lineWord.Length > 0)
                         {
-                            string newWord = "**"+lineWord+"**";
-                            string newLine = line.ToLower().Replace(lineWord+"", newWord.ToUpper());
 
                             if (snippets.ContainsKey(lineWord))
                             {
-                                snippets[lineWord][txtCounter] = newLine;
+                                snippets[lineWord][txtCounter] = line;
                             }
                             else
                             {
-                                txtSnippet[txtCounter] = newLine;
+                                txtSnippet[txtCounter] = line;
                                 snippets.Add(lineWord, txtSnippet);
                             }
                         }

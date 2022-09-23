@@ -1,0 +1,91 @@
+Proyecto de Programación I 
+Primer Año de la carrera Ciencia de la Computacion de la Universidad de la Habana
+Autor: Frank Pérez Fleita 
+Grupo: C-121
+
+Moogle es un motor de búsqueda que utiliza como base de datos archivos de la extensión .txt ubicados en el directorio Content/ del propio projecto.
+Tiene como objetivo realizar una búsqueda de la forma mas certera posible a partir del texto introducido por el usuario.
+Para ejecutar el proyecto se deberá ejecutar en la raíz de este el comando: dotnet run watch --project MoogleServer. 
+Observación: Será necesaria la instalación previa de dotnet6.0 o superior.
+
+
+Para la búsqueda se pueden utiliar operadores reconocidos por el buscador como son:
+
+1. "!", la presencia de este operador asociado a una palabra (Harry !Potter) indicará que ningún texto que la contenga será un resultado válido.
+2. "^", tiene un funcionamiento similar al anterior, no se mostrará ningun resultado si la palabra asociada a este operador  (Harry ^Potter) no está presente en el texto.
+3. "*", con cada aparición de este operador asociado a una palabra se aumenta la importancia de esta en la "query" introducida por el usuario (*Harry hace que la palabra "Harry" sea más importante que si se introdujera Harry y **Harry más importante que *Harry)(el efecto del operador es acumulativo por cada "*")
+4. "~", este operador relaciona dos palabras (Harry~Potter, también se puede introducir Harry ~ Potter), el documento adquiere mayor valor si se encuentran más cerca estas palabras en el documento.
+
+Con cada busqueda se mostrarán los resultados obtenidos en la forma:
+
+Título del documento    
+        ...Muestra del contenido del documento...
+                                    Puntuación obtenida en búsqueda
+        
+
+
+
+Descripción técnica del funcionamiento del motor de búsqueda:
+
+Como parte de la compilación de la aplicación (archivo MoogleServer/Program.cs) se llevarán a cabo tres métodos que cargarán información necesaria para agilizar el proceso de búsqueda posteriormente:
+- TF ubicado en la clase presearch (MoogleEngine/presearch.cs)
+- iDF ubicado en la clase presearch (MoogleEngine/presearch.cs)
+- snippets ubicado en la clase presearch (MoogleEngine/presearch.cs)
+
+Con estos métodos se almacenarán los valores de TF(Term Frequency, medida del número de apariciones de una palabra en cada texto),
+iDF (inverse Document Frequency, medida de la cantidad de textos de la base de datos en los que aparece una palabra) y snippets(sección del texto asociada a una palabra).
+Dichos valores se almacenarán en diccionarios para facilitar y hacer más rapido su manejo en futuras operaciones.
+
+Posterior a la compilación, en el momento en que el usuario realice una búsqueda se ejecutarán otros métodos en el siguiente orden:
+
+-nonPresent(), método ubicado en MoogleEngine/operators.cs, tiene el objetivo de detectar si existen palabras afectadas por el operador "!", esa información es almacenada dentro del método RunQuery() para posteriormente ser utilizada 
+para modificar los resultados de la búsqueda.
+-Present(), tiene el mismo objetivo que el método anteriormente nombrado pero para el operador "^"
+-Importance(), ubicado en la misma clase y archivo que los dos métodos anteriores y la misma función para el operador "*"
+-closeness(), último método de operadores utilizado para controlar la información relacionada con el operador "~" 
+    * Estos métodos relacionados con operadores utilizan internamente en su mayoría el método operatorAction, ubicado en MoogleEngine/operators.cs, que recibe la "query" y el operador,
+    y devuelve la información que será enviada a RunQuery().
+
+-SplitInWords(), método auxiliar que recibe un string y devuelve un array con las palabras en él
+
+Posterior a la ejecución de esos métodos se comienza la búsqueda en los textos de Content/, utilizando como base el modelo conocido como similitud de coseno,
+para cada texto, utilizando los valores de TF e iDF de cada palabra de la "query", cargados previamente, descartando desde el inicio los textos en los que no aparece ninguna de las palabras buscadas(la suma de los valores de TF de todas las palabras buscadas es 0), 
+en un gráfico de TF vs iDF asumimos como vector de un texto ideal, aquel que tiene como ángulo 45°. Sus valores de TF e iDF estarían en la proporción 1:1
+El coseno del angulo comprendido entre el vector que se forma de los valores de TF e iDF del query en cada texto y nuestro vector ideal será el valor de la puntuación
+del documento para las palabras de la "query", este valor de coseno se puede calcular:
+    
+              x2*x1 + y2*y1
+    cos α =  ---------------
+               |v1| * |v2|
+
+Como nuestro vector ideal tienes sus componentes en la proporción 1:1, tomemos estos como valores de TF e iDF,
+por lo que x1 = TF(ideal) = 1
+           x2 = iDF(ideal) = 1,
+           |v1| = √2
+
+Luego de calcular el largo del vector del texto (|v2| = √(TF(query)^2 + iDF(query)^2)),
+llegamos a que la puntuación de cada vector de puede calcular como:
+
+                 x2 + y2
+    cos α =  ---------------
+                √2 * |v2|
+
+A medida que se acerca el vector del texto a ser el ideal disminuye el angulo (α) y por tanto aumenta el valor del coseno, aumentando así la puntuación del texto.
+
+
+Tras calcular el "score" que tendrá el documento, en caso de presentar el query el operador "*" se modificarán los valores de TF e iDF de las palabras afectadas por él, 
+es por eso que en caso de presentarlo se lleva a cabo, previamente al cálculo del score, este proceso que modificará el valor del score del documento
+
+En caso de presentar alguno de los demás operadores se realizarán las acciones para que los resultados se vean modificados por estosÑ
+-Si contiene el operador "!" se hará 0 el score de todo documeto que contenga la palabra afectada por él
+-Si contiene el operador "^" se hará 0 el score de todo documeto que NO contenga la palabra afectada por él
+-Si contiene el operador "~" aumentará el valor del score a medida que disminuya la distancia entre las paradas afectadas
+
+Luego de aplicar los cambios que conlleva la presencia de operadores, en caso de que así fuera, se hará un recuento de los resultados 
+que presentan un score distinto de 0 y hallar entre las palabras la de mayor iDF para devolver el snippet relacionado con esa palabra en el texto
+
+Será devuelto un array de SearchItem que contiene (snippet, score, direccion del texto), con los resultados de la búsqueda, previamente ordenados de mayor a menor valor de score.
+
+Si estos resultados son menos de 5, cada palabra de la query será evaluada contra el resto de las palabras en la base de datos para buscar posibles sustitutas en caso de errores de escritura(utilizando el algoritmo distancia de Hamming),
+esta nueva query creada con las palabras sustitutas será enviada como parte del SearchResult que devuelve el método RunQuery(), desde la interfaz se mostrará al usuario y al hacer click, 
+se reemplazará por el antigüo query para comenzar nuevamente el proceso de búsqueda.
