@@ -164,7 +164,7 @@ public class Moogle
                                         }
                                     }
                                     // Min distance can be 0, in that case I will sum 0.5 to score
-                                    Match[i].Item1 += 0.1;
+                                    Match[i].Item1 += 1/(minDistance+2);
                                 }
                             } 
                         }
