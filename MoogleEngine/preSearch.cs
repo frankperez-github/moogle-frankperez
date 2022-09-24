@@ -43,11 +43,8 @@ public class preSearch
     }
 
 
-
     // PPRINCIPAL METHODS
-    // Storaging positions of all words in database
-    public static Dictionary<string, Dictionary<int, int[]>> positionsDict = new Dictionary<string , Dictionary<int, int[]>>();
-   
+       
     public static Dictionary<string, double[]> TF()
     // This method compute TF of all words in all texts and storage it in a dict  <word, TF values[]> pairs 
     {

@@ -14,18 +14,20 @@ public class Moogle
         string[] queryWords = preSearch.SplitInWords(query);
 
         // Texts in Database
-        string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");    
+        string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");   
+        Dictionary<string, string[]> texts = preSearch.LoadTexts();
+
 
         // Array of txt's anguleCos and address
-        (double, string)[] Match = new (double, string)[filesAdresses.Length];
+        (double, string)[] Match = new (double, string)[texts.Count()];
 
-        
-        int[] closenessInTxt = new int[filesAdresses.Length]; // Final results of calculating distance between words
+        int[] closenessInTxt = new int[texts.Count()]; // Final results of calculating distance between words
 
 
         // Looking best match in all txt
-        for (int i = 0; i < filesAdresses.Length; i++)
+        for (int i = 0; i < texts.Count; i++)
         {
+
             // Search of query
             double queryTF = 0;
             double queryiDF = 0;
@@ -126,11 +128,10 @@ public class Moogle
                     }
                 }
 
+                StreamReader text = new StreamReader(filesAdresses[i]);
                 // ~ operator
                 if (closeness.Item1)
                 {
-                    System.Diagnostics.Stopwatch crono = new System.Diagnostics.Stopwatch();
-                    crono.Start();
                     foreach(var pair in closeness.Item2)
                     {
                         string word = pair.Key;
@@ -139,34 +140,31 @@ public class Moogle
                         {
                             if (word != affected)
                             {
-                                for (int t = 0; t < filesAdresses.Length; t++)
+                                string[] textWords = texts[filesAdresses[i]];
+                                int minDistance = int.MaxValue;
+
+                                // Looking for words in text to calculate distance
+                                if (iDF.ContainsKey(word) && iDF.ContainsKey(affected) && TF[word][i] != 0 && TF[affected][i] != 0 && minDistance > 1)
                                 {
-                                    int minDistance = int.MaxValue;
-
-                                    // Looking for words in text to calculate distance
-                                    if (iDF.ContainsKey(word) && iDF.ContainsKey(affected) && TF[word][i] != 0 && TF[affected][i] != 0)
+                                    Console.WriteLine(i);
+                                    for (int f = 0; f < textWords.Length; f++)
                                     {
-                                        string[] textWords = preSearch.SplitInWords(File.ReadAllText(filesAdresses[i]));
-                                        // for (int f = 0; f < textWords.Length; f++)
-                                        // {
-                                        //     if (textWords[f].ToLower() == word)
-                                        //     {
-                                        //         for (int r = 0; r < textWords.Length; r++)
-                                        //         {
-                                        //             if (textWords[f].ToLower() == affected)
-                                        //             {
-                                        //                 if (Math.Abs(f - r) < minDistance)
-                                        //                 {
-                                        //                     minDistance = Math.Abs(f - r);
-                                        //                 }
-                                        //             }
-                                        //         }
-                                        //     }
-                                        // }
-
-                                        // Min distance can be 0, in that case I will sum 0.5 to score
-                                        Match[i].Item1 += 1/(minDistance+2);
+                                        if (textWords[f].ToLower() == word)
+                                        {
+                                            for (int r = 0; r < textWords.Length; r++)
+                                            {
+                                                if (textWords[r].ToLower() == affected)
+                                                {
+                                                    if (Math.Abs(f - r) < minDistance)
+                                                    {
+                                                        minDistance = Math.Abs(f - r);
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
+                                    // Min distance can be 0, in that case I will sum 0.5 to score
+                                    Match[i].Item1 += 0.1;
                                 }
                             } 
                         }
@@ -201,8 +199,8 @@ public class Moogle
 
             // Looking for more important word in query(bigger iDF), word most appear in txt
             for (int i = 0; i < queryWords.Length; i++)
-            {                                                                                                                       // TF must be != 0.All results have snippets, no matter wich word of query it has
-                if (iDF.ContainsKey(queryWords[i]) && iDF[queryWords[i]] < max && iDF[queryWords[i]] != 0 && TF[queryWords[i]][txtCounter]!= 0)
+            { 
+                if (TF.ContainsKey(queryWords[i]) && iDF[queryWords[i]] < max && TF[queryWords[i]][txtCounter]!= 0)
                 {
                     max = iDF[queryWords[i]];
                     word = queryWords[i]; // Most important word will decide which snippet will be showed
@@ -213,19 +211,12 @@ public class Moogle
             if (match.Item1 != 0 && snippets[word][txtCounter] != null)
             {             
                 double score;
-                if (closeness.Item1)
-                {
-                    score = (Math.Truncate(((match.Item1) + closenessInTxt[txtCounter]) * 1000) / 1000);
-                }
-                else
-                {
-                    score = Math.Truncate(match.Item1*1000) / 1000;
-                }
+                
+                score = Math.Truncate(match.Item1*1000) / 1000;
                 items[count] = new SearchItem(snippets[word][txtCounter], score, match.Item2);
 
                 count++;
             }  
-
             txtCounter++; 
 
             // If there are few results maybe query was wrong
