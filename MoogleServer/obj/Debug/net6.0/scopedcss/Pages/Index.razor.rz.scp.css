@@ -4,6 +4,11 @@
 }
 .result[b-3asepffdpk]{
     cursor: pointer;
+    box-shadow: 1.7px 1.7px gray;
+}
+.result:hover[b-3asepffdpk]{
+    border: solid 1px;
+    background-color: rgb(217, 217, 217);
 }
 .results[b-3asepffdpk] {
     text-align: left;
@@ -26,6 +31,7 @@
 }
 .searchButton:hover[b-3asepffdpk]{
     border: solid 1px;
+    background-color: rgb(154, 178, 255);
 }
 
 .searchImg[b-3asepffdpk]{
@@ -38,7 +44,7 @@
     border: solid 1px black;
     padding: 2%;
     padding-bottom: 0;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
 }
 .score[b-3asepffdpk]{
     text-align: right;

@@ -222,7 +222,7 @@ public class Moogle
             }
 
             // Showing all matches except the ones that have 0 as TF for query     
-            if (match.Item1 != 0 && snippets[word][txtCounter] != null)
+            if (match.Item1 != 0 && snippets[word][txtCounter] != null && match.Item2 != null)
             {             
                 double score;
                 if (closeness.Item1)
@@ -233,6 +233,7 @@ public class Moogle
                 {
                     score = Math.Truncate(match.Item1*1000) / 1000;
                 }
+
                 items[count] = new SearchItem(snippets[word][txtCounter], score, match.Item2);
                 count++;
             }  

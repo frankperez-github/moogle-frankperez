@@ -8,8 +8,6 @@ public class SearchItem
         this.Score = score;
         this.Address = address;
     }
-
-    public string Title { get; private set; }
     
     public string Address { get; private set; }
 

@@ -111,7 +111,6 @@ public class preSearch
                     int[] positionsList = new int[1];
                     positionsList[0] = i;
                     Dictionary<int, int[]> posit = new Dictionary<int, int[]>();
-                    
                     posit.Add(t, positionsList);
                     positionsDict.Add(actualWords[i], posit);
                 }
@@ -206,22 +205,16 @@ public class preSearch
                     // Inserting words and it's snippets in actual txt to snippets Dict
                     foreach (string lineWord in Line)
                     {
-                        if (lineWord.Length > 0)
+                        if (!snippets.ContainsKey(lineWord)) // Creating
                         {
-
-                            if (snippets.ContainsKey(lineWord))
-                            {
-                                snippets[lineWord][txtCounter] = line;
-                            }
-                            else
-                            {
-                                txtSnippet[txtCounter] = line;
-                                snippets.Add(lineWord, txtSnippet);
-                            }
+                            txtSnippet[txtCounter] = line;
+                            snippets.Add(lineWord, txtSnippet);
                         }
-                        
+                        else // Updating
+                        {
+                            snippets[lineWord][txtCounter] = line;
+                        }
                     }
-                    
                 }   
             }
 

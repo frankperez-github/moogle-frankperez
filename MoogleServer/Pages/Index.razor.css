@@ -4,6 +4,11 @@
 }
 .result{
     cursor: pointer;
+    box-shadow: 1.7px 1.7px gray;
+}
+.result:hover{
+    border: solid 1px;
+    background-color: rgb(217, 217, 217);
 }
 .results {
     text-align: left;
@@ -26,6 +31,7 @@
 }
 .searchButton:hover{
     border: solid 1px;
+    background-color: rgb(154, 178, 255);
 }
 
 .searchImg{
@@ -38,7 +44,7 @@
     border: solid 1px black;
     padding: 2%;
     padding-bottom: 0;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
 }
 .score{
     text-align: right;
