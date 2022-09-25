@@ -1,8 +1,12 @@
-﻿namespace MoogleEngine;
-using System.Text.Json;
+﻿using System.Diagnostics;
+namespace MoogleEngine;
+
 public class Moogle
 {
-    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets) {
+    public static SearchResult Query(string query, Dictionary<string, double[]> TF, Dictionary<string, double> iDF, Dictionary<string, string[]> snippets, Dictionary<string, Dictionary<int, int[]>> positionsDict) {
+
+        Stopwatch SearchCrono = new Stopwatch();
+        SearchCrono.Start();
 
         // Looking for search operators
         (bool, string[]) nonPresent = operators.nonPresent(query);
@@ -14,20 +18,18 @@ public class Moogle
         string[] queryWords = preSearch.SplitInWords(query);
 
         // Texts in Database
-        string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");   
-        Dictionary<string, string[]> texts = preSearch.LoadTexts();
+        string[] filesAdresses = Directory.GetFiles("../Content/", "*.txt");
 
+        // Array of txt's anguleCos and adress
+        (double, string)[] Match = new (double, string)[filesAdresses.Length];
 
-        // Array of txt's anguleCos and address
-        (double, string)[] Match = new (double, string)[texts.Count()];
-
-        int[] closenessInTxt = new int[texts.Count()]; // Final results of calculating distance between words
+        
+        double[] closerInTxt = new double[filesAdresses.Length]; // Final results of calculating distance between words
 
 
         // Looking best match in all txt
-        for (int i = 0; i < texts.Count; i++)
+        for (int i = 0; i < filesAdresses.Length; i++)
         {
-
             // Search of query
             double queryTF = 0;
             double queryiDF = 0;
@@ -38,7 +40,7 @@ public class Moogle
                 // TF of each word in query
                 try
                 {
-                    if(TF[word][i] < 0.03) //3% of total of word. If a word appears in more than 4% of total of words, it is not important for that txt
+                    if(TF[word][i] < 0.04) //4% of total of word. If a word appears in more than 4% of total of words, it is not important for that txt
                     {
                         queryTF += TF[word][i];
                     }
@@ -48,7 +50,9 @@ public class Moogle
                     }
                 }
                 catch (KeyNotFoundException)
-                {}
+                {
+                    queryTF += 0;
+                }
 
                 // iDF of each word in query
                 try
@@ -59,11 +63,13 @@ public class Moogle
                     }
                     else
                     {
-                        iDF[word] = 0;
+                        queryiDF += 0;
                     }
                 }
                 catch (KeyNotFoundException)
-                {}
+                {
+                    queryiDF += 0;
+                }
             }
 
             // * operator
@@ -128,48 +134,56 @@ public class Moogle
                     }
                 }
 
-                StreamReader text = new StreamReader(filesAdresses[i]);
                 // ~ operator
                 if (closeness.Item1)
-                {
+                {   
+                    // Repeating process for each pair of word affected by operator (repeating for each operator)
                     foreach(var pair in closeness.Item2)
-                    {
+                    {                        
+                        // Left word
                         string word = pair.Key;
+                        // All words on right associated to left word
                         string[] AffectedWords = pair.Value;
+
+                        // Iterating over each word affected by the word on the left of operator
                         foreach (var affected in AffectedWords)
                         {
                             if (word != affected)
                             {
-                                string[] textWords = texts[filesAdresses[i]];
-                                int minDistance = int.MaxValue;
 
-                                // Looking for words in text to calculate distance
-                                if (iDF.ContainsKey(word) && iDF.ContainsKey(affected) && TF[word][i] != 0 && TF[affected][i] != 0 && minDistance > 1)
+                                int lWordAppears;
+                                int rWordAppears;
+                                // Computing distance only if words appears on it
+                                if (positionsDict[word].ContainsKey(i) && positionsDict[affected].ContainsKey(i))
                                 {
-                                    Console.WriteLine(i);
-                                    for (int f = 0; f < textWords.Length; f++)
+                                    lWordAppears = positionsDict[word][i].Length;
+                                    rWordAppears = positionsDict[affected][i].Length;
+
+                                    int minDistance = int.MaxValue;
+
+                                    // Min distance will be 1, if it is already go to next txt
+                                    if (minDistance > 1)
                                     {
-                                        if (textWords[f].ToLower() == word)
+                                        for (int w = 0; w < lWordAppears; w++)
                                         {
-                                            for (int r = 0; r < textWords.Length; r++)
+                                            for (int a = 0; a < rWordAppears; a++)
                                             {
-                                                if (textWords[r].ToLower() == affected)
+                                                int distance = Math.Abs(preSearch.positionsDict[word][i][w] - preSearch.positionsDict[affected][i][a]);
+                                                
+                                                if (distance < minDistance)
                                                 {
-                                                    if (Math.Abs(f - r) < minDistance)
-                                                    {
-                                                        minDistance = Math.Abs(f - r);
-                                                    }
+                                                    minDistance = distance;
                                                 }
                                             }
                                         }
+                                        closerInTxt[i] = 1.00 /(minDistance + 1.00);
                                     }
-                                    // Min distance can be 0, in that case I will sum 0.5 to score
-                                    Match[i].Item1 += 1/(minDistance+2);
                                 }
-                            } 
+                            }   
                         }
                     }
                 }
+            
             }
         }        
 
@@ -194,13 +208,13 @@ public class Moogle
         {
             // txt.Item2 es adress of txt, 
             // txt.Item1 is score of txt
-            double max = double.MaxValue;
+            double max = double.MinValue;
             string word = "";
 
             // Looking for more important word in query(bigger iDF), word most appear in txt
             for (int i = 0; i < queryWords.Length; i++)
-            { 
-                if (TF.ContainsKey(queryWords[i]) && iDF[queryWords[i]] < max && TF[queryWords[i]][txtCounter]!= 0)
+            {    
+                if (iDF.ContainsKey(queryWords[i]) && iDF[queryWords[i]] > max && TF[queryWords[i]][txtCounter]!= 0)
                 {
                     max = iDF[queryWords[i]];
                     word = queryWords[i]; // Most important word will decide which snippet will be showed
@@ -211,10 +225,15 @@ public class Moogle
             if (match.Item1 != 0 && snippets[word][txtCounter] != null)
             {             
                 double score;
-                
-                score = Math.Truncate(match.Item1*1000) / 1000;
+                if (closeness.Item1)
+                {
+                    score = (Math.Truncate(((match.Item1) + closerInTxt[txtCounter]) * 1000) / 1000);
+                }
+                else
+                {
+                    score = Math.Truncate(match.Item1*1000) / 1000;
+                }
                 items[count] = new SearchItem(snippets[word][txtCounter], score, match.Item2);
-
                 count++;
             }  
             txtCounter++; 
@@ -272,18 +291,7 @@ public class Moogle
         var sortedMatches = from item in items orderby item.Score descending select item;
         var results = sortedMatches.ToArray();
 
-        // If there are so much results showing best 10
-        if (results.Count() > 10)
-        {
-            SearchItem[] finalresults = new SearchItem[10];
-
-            for(int counter = 0; counter < 10; counter++)
-            {
-                finalresults[counter] = results[counter];
-            }
-            return new SearchResult(finalresults,query);
-        }
-            
+        Console.WriteLine("Searched in: "+(double)SearchCrono.ElapsedMilliseconds / 1000+" secs⌚");
         return new SearchResult(results, query);
     }
 

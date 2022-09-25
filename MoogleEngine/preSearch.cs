@@ -44,6 +44,7 @@ public class preSearch
 
 
     // PPRINCIPAL METHODS
+    public static Dictionary<string, Dictionary<int, int[]>> positionsDict = new Dictionary<string , Dictionary<int, int[]>>();
        
     public static Dictionary<string, double[]> TF()
     // This method compute TF of all words in all texts and storage it in a dict  <word, TF values[]> pairs 
@@ -89,8 +90,33 @@ public class preSearch
                     TF.Add(actualWords[i], TFs);
                     TF[actualWords[i]][t] += (double)(1.00 / (double)actualWords.Length);
                 }
+                // Saving positions of word
+                if (positionsDict.ContainsKey(actualWords[i])) // Updating
+                {
+                    if (positionsDict[actualWords[i]].ContainsKey(t)) //Updating Dict inside Dict
+                    {
+                        positionsDict[actualWords[i]][t] = positionsDict[actualWords[i]][t].ToList().Append(i).ToArray();
+                    }
+                    else //Creating Dict inside Dict
+                    {
+                        List<int> positionsList = new List<int>();
+                        positionsList = new int[1].ToList();
+                        positionsList[0] = i;
+                        positionsDict[actualWords[i]].Add(t, positionsList.ToArray());
+                    }
+
+                }
+                else // Creating
+                {
+                    int[] positionsList = new int[1];
+                    positionsList[0] = i;
+                    Dictionary<int, int[]> posit = new Dictionary<int, int[]>();
+                    
+                    posit.Add(t, positionsList);
+                    positionsDict.Add(actualWords[i], posit);
+                }
             }
-        }   
+        }     
         
         Console.WriteLine("TF Finished in: "+(double)crono.ElapsedMilliseconds/1000+" secs.⌚");
         crono.Stop();

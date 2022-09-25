@@ -13,6 +13,9 @@ class Program
     // Storaging snippets for all words in data base
     public static Dictionary<string, string[]> snippets = preSearch.snippets(TF);
 
+    // Loading positions of word to be ready to use it in closeness operator
+     public static Dictionary<string, Dictionary<int, int[]>> positionsDict = preSearch.positionsDict;
+
 
     private static void Main(string[] args)
     {
